@@ -10,6 +10,32 @@ This repo makes 44 five-minute animated explainers covering UPSC Ancient Indian 
 - Episode code: `episodes/epNN/ep.py`
 - Finished files: `output/`
 
+## GyaanXstudios: editorial identity (applies to every episode and script)
+This series is part of the **GyaanXstudios** channel. Build our own recognisable identity; never imitate another show's name, catchphrases, set or presenter.
+
+| | GyaanXstudios |
+| --- | --- |
+| Presenter | A strong, professional narrator (no on-camera presenter) |
+| Format | Animated storytelling |
+| Main focus | UPSC concepts and knowledge (current affairs where they teach a concept) |
+| Context | Historical, scientific and conceptual |
+| Visuals | Animation-led: maps, diagrams, timelines |
+| Learning | Understand **and remember** concepts (a memory tip in every episode) |
+| Examination | Prelims application and MCQs, plus a Mains frame, in every episode |
+| Duration | Concise five-minute episodes |
+
+**Five principles for every script:**
+1. **Always explain why.** Don't just state what happened or what a rule says; say why it happened or why it exists.
+2. **Connect the dots.** Link geography, history, economy and politics wherever they meet.
+3. **Use stories.** Every concept has a narrative or a central question that the episode answers.
+4. **Respect the audience.** Simple language, never shallow information.
+5. **Be trustworthy.** Verify facts, acknowledge mistakes, and distinguish evidence from opinion ("the treaty says…" vs "India argues…", "historians disagree…").
+
+**Writing rules that follow from this:**
+- **Concrete dates, never relative time.** Say "on 23 April 2025", not "sixteen months ago", "last year", "recently" or "today", so an episode never goes stale.
+- **No chant lines** such as "Say it with me". State the memory tip once, clearly, and show it on screen.
+- **Mistakes:** if an error is found after publishing, add a correction line to the video's YouTube description, log it in `scripts/corrections.md` (date, episode, what was wrong, the fix), and fix it in the next re-render.
+
 ## Rules that matter most
 1. **Never render a unit before the user approves its scripts.** Write the unit's script file, commit and push it, tell the user it's ready, and **stop and wait** for a message saying it's approved. The only exception is Episode 4, the format sample, which you render as the test episode when the user asks.
 2. **Approved narration is used word for word.** If you spot a factual problem in an approved script, flag it; don't silently change it.
