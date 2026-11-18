@@ -22,5 +22,7 @@ STOP_QUEUE
 **/small.mp4
 **/concat.txt
 **/ffmpeg2pass*
+# thumbnails are a delivered file (see CLAUDE.md), so output/youtube keeps them
 **/*_thumb*.png
+!output/youtube/*_thumb.png
 !output/hindi/*.m4a
