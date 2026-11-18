@@ -13,7 +13,7 @@ core.TOTAL = TOTAL
 from engine.core import W, H
 from engine.stone import S, carve, poly, rrect
 from engine.auto import (build, fx_for, P_TEXT, P_SITES, P_ROW, P_TWO, P_STACK, P_VILLAGE,
-                         P_OBJ, P_MON, Q_SHAPE, Q_OBJ, GY)
+                         P_OBJ, P_MON, P_WHEEL, Q_SHAPE, Q_OBJ, GY)
 from engine import museum
 from text import EN, HI as _HI
 
@@ -44,8 +44,9 @@ CFG = dict(
         (P_ROW(['ONE  ·  there is suffering', 'TWO  ·  its cause is craving',
                 'THREE  ·  so it can end', 'FOUR  ·  there is a path'], size=26),
          'THE FOUR NOBLE TRUTHS'),
-        (P_OBJ(lambda c, x, y, s, a, t: museum.ex_bodhi(c, x, y, s*0.9, a, t), s=1.6,
-               label='WISDOM · CONDUCT · DISCIPLINE'), 'THE EIGHTFOLD PATH'),
+        (P_WHEEL(['RIGHT VIEW', 'RIGHT INTENTION', 'RIGHT SPEECH', 'RIGHT ACTION',
+                  'RIGHT LIVELIHOOD', 'RIGHT EFFORT', 'RIGHT MINDFULNESS', 'RIGHT CONCENTRATION'],
+                 hub='WISDOM  ·  CONDUCT  ·  DISCIPLINE'), 'THE EIGHTFOLD PATH'),
         (P_TWO(['Prakrit, the spoken language', 'Not Sanskrit, which few followed'],
                ['Open regardless of birth', 'An institution to carry the teaching'],
                'THE LANGUAGE', 'THE SANGHA'), 'WHY IT SPREAD'),

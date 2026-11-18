@@ -297,13 +297,17 @@ def GALLERY(ctx, t, D, a, hall, facts=(), nxt=None, t0=.4):
         q = seg(t, t0 + 1.1, t0 + 1.7)
         if q > 0:
             qa = a*ease(q)
-            carve(ctx, lambda: rrect(ctx, 1300, 170, 560, 300, 12), S['lime'], qa, depth=5.)
-            engraved(ctx, 'MUSEUM LABEL', 1580, 226, 24, qa, S['soot'], serif=False)
-            rgba(ctx, S['soot'], .35*qa); ctx.rectangle(1340, 246, 480, 2); ctx.fill()
+            # the cases occupy roughly y 370-800, so the label sits above them
+            carve(ctx, lambda: rrect(ctx, 1308, 126, 548, 228, 12), S['lime'], qa, depth=5.)
+            engraved(ctx, 'MUSEUM LABEL', 1582, 172, 22, qa, S['soot'], serif=False)
+            rgba(ctx, S['soot'], .35*qa); ctx.rectangle(1344, 188, 476, 2); ctx.fill()
+            y = 222
             for j, f in enumerate(facts):
                 fq = ease(seg(t, t0 + 1.5 + j*.3, t0 + 1.9 + j*.3))
-                for k, l in enumerate(wrap(ctx, f, 26, 470, False)):
-                    engraved(ctx, l, 1340, 300 + j*56 + k*31, 26, qa*fq, S['soot'], 'l', lit_=.0)
+                for l in wrap(ctx, f, 23, 466, False):
+                    engraved(ctx, l, 1344, y, 23, qa*fq, S['soot'], 'l', lit_=.0)
+                    y += 28
+                y += 11
     if nxt:
         q = seg(t, D - 3.2, D - 2.6)
         if q > 0:

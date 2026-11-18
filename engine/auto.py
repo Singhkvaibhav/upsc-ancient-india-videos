@@ -44,6 +44,9 @@ def P_SITES(sites, note=True):
         for i, (nm, dx, dy) in enumerate(sites):
             q = ease(seg(t, .3 + i*.38, .9 + i*.38))
             if q <= 0: continue
+            # keep every pin and its label on the board, clear of the note line
+            dy = max(-430., min(170., float(dy)))
+            dx = max(-830., min(830., float(dx)))
             x, y = cx + dx, gy + dy + (1 - eob(q, 1.4))*-150
             rgba(ctx, S['ochre'], a*q); ctx.set_line_width(3)
             ctx.move_to(x, y); ctx.line_to(x, y - 54); ctx.stroke()
@@ -60,10 +63,36 @@ def P_SITES(sites, note=True):
 
 
 def P_ROW(items, obj=None, size=28):
-    """a row of carved cards, each a short label, appearing one at a time"""
+    """a row of carved cards, each a short label, appearing one at a time.
+    The type shrinks until the longest label fits its card in both directions,
+    and the same size is used on every card so the row reads as a set."""
+    def _fit(ctx, lab, sz, inner):
+        """wrap at sz, measuring with the serif face engraved() actually draws"""
+        font(ctx, sz, True, True)
+        words, lines, cur = lab.split(), [], ''
+        for w_ in words:
+            cand = (cur + ' ' + w_).strip()
+            if ctx.text_extents(cand).x_advance > inner and cur:
+                lines.append(cur); cur = w_
+            else:
+                cur = cand
+        if cur: lines.append(cur)
+        over = any(ctx.text_extents(l).x_advance > inner for l in lines)
+        return lines, over
+
     def d(ctx, cx, gy, a, t):
         n = len(items)
         wdt = min(360, 1560/n)
+        inner = wdt - 40
+        body_h = 150 if obj else 230          # room left under an object, if any
+        sz = size
+        while sz > 14:
+            lines = [_fit(ctx, lab, sz, inner) for lab in items]
+            if (not any(o for _, o in lines)
+                    and max(len(ls) for ls, _ in lines)*(sz + 7) <= body_h):
+                break
+            sz -= 2
+        lead = sz + 7
         for i, lab in enumerate(items):
             q = ease(seg(t, .25 + i*.3, .9 + i*.3))
             if q <= 0: continue
@@ -72,23 +101,46 @@ def P_ROW(items, obj=None, size=28):
             ctx.save(); ctx.translate(x + wdt/2, gy - 190); ctx.scale(s_, s_); ctx.translate(-(x + wdt/2), -(gy - 190))
             carve(ctx, lambda x=x: rrect(ctx, x, gy - 320, wdt, 260, 10), S['clay'], a*q, depth=5.)
             if obj: obj(ctx, x + wdt/2, gy - 215, .65, a*q, t)
-            for j, l in enumerate(wrap(ctx, lab, size, wdt - 44, True)):
-                engraved(ctx, l, x + wdt/2, gy - 118 + j*32, size, a*q, S['lime'])
+            ls, _ = _fit(ctx, lab, sz, inner)
+            base = (gy - 118) if obj else (gy - 190)
+            y0 = base - (len(ls) - 1)*lead/2
+            for j, l in enumerate(ls):
+                engraved(ctx, l, x + wdt/2, y0 + j*lead, sz, a*q, S['lime'])
             ctx.restore()
     return d
 
 
 def P_TWO(left, right, lhead=None, rhead=None):
-    """two carved blocks of equal size, side by side"""
+    """two carved blocks of equal size, side by side. `left` and `right` are
+    either one string or a list of short lines; the type size and line spacing
+    shrink to fit whichever side has more, so the two cards stay equal."""
+    def _lines(ctx, body, size, width):
+        if isinstance(body, (list, tuple)):
+            out = []
+            for item in body:
+                out.extend(wrap(ctx, item, size, width, True))
+            return out
+        return wrap(ctx, body, size, width, True)
+
     def d(ctx, cx, gy, a, t):
+        # one size for both cards, chosen so the fuller side fits inside it
+        size, lead = 30, 44
+        for _ in range(6):
+            n = max(len(_lines(ctx, b, size, 700)) for b in (left, right))
+            if n*lead <= 250 or size <= 18: break
+            size -= 2; lead = size + 12
         for i, (head, body) in enumerate(((lhead, left), (rhead, right))):
             q = ease(seg(t, .3 + i*.45, 1.0 + i*.45))
             if q <= 0: continue
             x = cx - 820 + i*840
             carve(ctx, lambda x=x: rrect(ctx, x, gy - 430, 800, 400, 12), S['clay'], a*q, depth=5.5)
             if head: engraved(ctx, head, x + 400, gy - 360, 32, a*q, S['ochre'])
-            for j, l in enumerate(wrap(ctx, body, 30, 700, True)):
-                engraved(ctx, l, x + 400, gy - 300 + j*44, 30, a*q, S['lime'])
+            ls = _lines(ctx, body, size, 700)
+            # the body sits in the band below the heading, never over it
+            top, bot = gy - 310, gy - 60
+            y0 = top + ((bot - top) - len(ls)*lead)/2 + lead*.78
+            for j, l in enumerate(ls):
+                engraved(ctx, l, x + 400, y0 + j*lead, size, a*q, S['lime'])
     return d
 
 
@@ -138,6 +190,34 @@ def P_MON(kind, s=1.0, sky='dawn', label=None):
         fn = {'stupa': stupa, 'temple': temple, 'chaitya': chaitya}[kind]
         fn(ctx, cx, gy + 120, s=s, a=a, t=t)
         if label: engraved(ctx, label, cx, 300, 32, a, S['ochre'])
+    return d
+
+
+def P_WHEEL(labels=(), hub=None):
+    """an eight-spoked wheel, the dharmachakra, with short words on its spokes.
+    Used instead of any figure: the wheel is how early Indian art carried this."""
+    def d(ctx, cx, gy, a, t):
+        cy = gy - 268
+        q = ease(seg(t, .25, 1.0))
+        if q <= 0: return
+        R = 158
+        carve(ctx, lambda: ctx.arc(cx, cy, R, 0, 2*math.pi), S['sand'], a*q, depth=5.5)
+        carve(ctx, lambda: ctx.arc(cx, cy, R - 34, 0, 2*math.pi), tuple(v*.9 for v in S['sand']),
+              a*q, depth=3., seed=311)
+        carve(ctx, lambda: ctx.arc(cx, cy, 40, 0, 2*math.pi), S['lime'], a*q, depth=3.4, seed=312)
+        for k in range(8):
+            qq = ease(seg(t, .5 + k*.12, .9 + k*.12))
+            if qq <= 0: continue
+            ang = -math.pi/2 + k*math.pi/4
+            rgba(ctx, S['ochre'], .5*a*qq); ctx.set_line_width(13)
+            ctx.move_to(cx + 40*math.cos(ang), cy + 40*math.sin(ang))
+            ctx.line_to(cx + (R - 36)*math.cos(ang), cy + (R - 36)*math.sin(ang)); ctx.stroke()
+            if k < len(labels):
+                lx, ly = cx + (R + 104)*math.cos(ang), cy + (R + 56)*math.sin(ang)
+                al = 'c' if abs(math.cos(ang)) < .35 else ('l' if math.cos(ang) > 0 else 'r')
+                engraved(ctx, labels[k], lx, ly + 8, 24, a*qq, S['lime'], al, serif=False)
+        if hub:
+            engraved(ctx, hub, cx, gy + 26, 30, a*q, S['ochre'], 'c', serif=False)
     return d
 
 
@@ -293,12 +373,12 @@ def Q_SHAPE(kind):
             carve(ctx, lambda: ctx.rectangle(cx - 240, cy + 110, 480, 26), tuple(v*.8 for v in S['clay']), a, depth=3.)
         elif kind == 'nbpw':
             def bowl():
-                ctx.move_to(cx - 150, cy - 70); ctx.curve_to(cx - 140, cy + 60, cx + 140, cy + 60, cx + 150, cy - 70)
+                ctx.move_to(cx - 280, cy - 130); ctx.curve_to(cx - 260, cy + 115, cx + 260, cy + 115, cx + 280, cy - 130)
                 ctx.close_path()
             carve(ctx, bowl, tuple(v*.5 for v in S['lime']), a, depth=5.)
             ctx.save(); ctx.new_path(); bowl(); ctx.clip()
             for k in range(4):
-                rgba(ctx, S['lime'], .22*a); ctx.rectangle(cx - 170, cy - 56 + k*26, 340, 7); ctx.fill()
+                rgba(ctx, S['lime'], .22*a); ctx.rectangle(cx - 300, cy - 100 + k*48, 600, 12); ctx.fill()
             ctx.restore()
         elif kind == 'hillring':
             for i, (dx, w_, h_) in enumerate(((-330, 230, 120), (-140, 200, 95), (150, 240, 130), (360, 190, 100))):
@@ -603,9 +683,22 @@ def build(cfg, EN):
                         engraved(ctx, 'IN MAINS', W/2, 330, 34, a*q, S['ochre'], serif=False)
                         for j, l in enumerate(wrap(ctx, mains or '', 42, 1500, True)):
                             engraved(ctx, l, W/2, 430 + j*58, 42, a*q, S['lime'])
-                        for j, l in enumerate(cfg.get('mains_tags', ())):
-                            qq = ease(seg(t, 1.2 + j*.5, 1.7 + j*.5))
-                            if qq > 0: tag(ctx, l, 420 + j*430, 740, a*qq, align='c', size=26)
+                        mt = list(cfg.get('mains_tags', ()))
+                        if mt:
+                            tsz = 26
+                            while tsz > 15:
+                                font(ctx, tsz, True, False)
+                                widths = [ctx.text_extents(l).x_advance + 46 for l in mt]
+                                if sum(widths) + 40*(len(mt) - 1) <= 1720: break
+                                tsz -= 2
+                            gap = 40
+                            total = sum(widths) + gap*(len(mt) - 1)
+                            xx = W/2 - total/2
+                            for j, l in enumerate(mt):
+                                qq = ease(seg(t, 1.2 + j*.5, 1.7 + j*.5))
+                                if qq > 0:
+                                    tag(ctx, l, xx + widths[j]/2, 740, a*qq, align='c', size=tsz)
+                                xx += widths[j] + gap
                 frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.5, lampy=330, beam=False))
             f.bg = 'stone'; return f
         SC[k] = mk_q()
