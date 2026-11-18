@@ -19,11 +19,11 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 2: The Vedic age (Ep 7–11)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 7 | The Early Vedic period ★ | Rigveda, tribes, assemblies (sabha, samiti), economy | A Rigveda manuscript leaf | to script |
-| 8 | The Later Vedic period | Kingdoms, agriculture, iron, Painted Grey Ware | A Painted Grey Ware bowl | to script |
-| 9 | Vedic literature | Vedas, Brahmanas, Aranyakas, Upanishads, Vedangas | A bundle of palm-leaf texts | to script |
-| 10 | Varna, ashrama and Vedic society | Social order, women, rituals | A fire altar | to script |
-| 11 | Megalithic cultures of the south | Burial sites, iron tools | A megalithic burial stone | to script |
+| 7 | The Early Vedic period ★ | Rigveda, tribes, assemblies (sabha, samiti), economy | A Rigveda manuscript leaf | scripted |
+| 8 | The Later Vedic period | Kingdoms, agriculture, iron, Painted Grey Ware | A Painted Grey Ware bowl | scripted |
+| 9 | Vedic literature | Vedas, Brahmanas, Aranyakas, Upanishads, Vedangas | A bundle of palm-leaf texts | scripted |
+| 10 | Varna, ashrama and Vedic society | Social order, women, rituals | A fire altar | scripted |
+| 11 | Megalithic cultures of the south | Burial sites, iron tools | A megalithic burial stone | scripted |
 
 ## Unit 3: The age of the Buddha (Ep 12–17)
 | # | Episode | Covers | Exhibit | Status |
