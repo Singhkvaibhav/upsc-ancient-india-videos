@@ -734,23 +734,36 @@ def Q_SHAPE(kind):
                 carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy - 192 + k*12, w_*2, 11),
                       S['sand'], a, depth=2.4, tex=.2, seed=630 + k)
         elif kind == 'vina':
-            carve(ctx, lambda: rrect(ctx, cx - 240, cy - 130, 480, 260, 10), S['sand'], a, depth=5.)
-            carve(ctx, lambda: ctx.arc(cx - 100, cy + 40, 52, 0, 2*math.pi),
-                  tuple(v*.88 for v in S['sand']), a, depth=3.4, seed=640)
-            carve(ctx, lambda: ctx.arc(cx + 130, cy - 40, 34, 0, 2*math.pi),
-                  tuple(v*.88 for v in S['sand']), a, depth=3., seed=641)
-            rgba(ctx, S['clay'], .9*a); ctx.set_line_width(13)
-            ctx.move_to(cx - 96, cy + 34); ctx.line_to(cx + 126, cy - 44); ctx.stroke()
-            for k in range(4):
-                rgba(ctx, S['ochre'], .46*a); ctx.set_line_width(2.4)
-                ctx.move_to(cx - 96, cy + 22 - k*6); ctx.line_to(cx + 126, cy - 56 - k*6); ctx.stroke()
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 140, 500, 280, 10), S['sand'], a, depth=5.)
+            # two gourd resonators, a long fretted neck between them
+            carve(ctx, lambda: ctx.arc(cx - 128, cy + 48, 74, 0, 2*math.pi),
+                  tuple(v*.82 for v in S['clay']), a, depth=4.4, seed=640)
+            carve(ctx, lambda: ctx.arc(cx + 150, cy - 56, 46, 0, 2*math.pi),
+                  tuple(v*.82 for v in S['clay']), a, depth=3.6, seed=641)
+            ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.36); ctx.translate(-cx, -cy)
+            carve(ctx, lambda: rrect(ctx, cx - 150, cy - 18, 310, 36, 12),
+                  tuple(v*.9 for v in S['clay']), a, depth=3.6, seed=642)
+            for k in range(9):                      # frets
+                rgba(ctx, S['ochre'], .4*a)
+                ctx.rectangle(cx - 126 + k*32, cy - 15, 5, 30); ctx.fill()
+            for k in range(4):                      # strings
+                rgba(ctx, S['lime'], .6*a); ctx.set_line_width(2.6)
+                ctx.move_to(cx - 150, cy - 10 + k*7); ctx.line_to(cx + 160, cy - 10 + k*7); ctx.stroke()
+            ctx.restore()
         elif kind == 'title':
-            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 80, 500, 160, 10), S['sand'], a, depth=4.8)
-            carve(ctx, lambda: rrect(ctx, cx - 210, cy - 52, 420, 104, 7),
-                  tuple(v*.9 for v in S['sand']), a, depth=2.6, seed=650)
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 150, 500, 300, 10), S['sand'], a, depth=4.8)
+            # a seated ruler on a dais, with a title plate being conferred above
+            carve(ctx, lambda: ctx.rectangle(cx - 86, cy + 64, 172, 40),
+                  tuple(v*.88 for v in S['clay']), a, depth=3.6, seed=650)
+            crowd(ctx, cy + 64, [cx], .95*a, 1.7, t=t)
+            carve(ctx, lambda: rrect(ctx, cx - 160, cy - 118, 320, 86, 8),
+                  tuple(v*.94 for v in S['sand']), a, depth=3.2, seed=651)
             for k in range(2):
-                rgba(ctx, S['ochre'], .5*a)
-                ctx.rectangle(cx - 170, cy - 24 + k*34, 340 - k*120, 11); ctx.fill()
+                rgba(ctx, S['ochre'], .55*a)
+                ctx.rectangle(cx - 128, cy - 96 + k*30, 256 - k*96, 12); ctx.fill()
+            for k in range(5):                      # a small emblem band under the plate
+                rgba(ctx, S['ochre'], .34*a)
+                ctx.arc(cx - 64 + k*32, cy - 18, 8, 0, 2*math.pi); ctx.fill()
         elif kind == 'province':
             carve(ctx, lambda: rrect(ctx, cx - 230, cy - 150, 460, 110, 8), S['sand'], a, depth=4.4)
             crowd(ctx, cy - 48, [cx], .9*a, 1.5, t=t)

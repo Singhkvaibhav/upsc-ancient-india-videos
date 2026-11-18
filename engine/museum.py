@@ -547,11 +547,11 @@ def ex_copperplate(ctx, cx, cy, s=1., a=1., t=0.):
     """two copper plates joined by a ring, engraved on the inner faces"""
     for i, dx in enumerate((-96, 96)):
         carve(ctx, lambda dx=dx: rrect(ctx, cx + dx*s - 86*s, cy - 62*s, 172*s, 128*s, 6*s),
-              tuple(v*1.18 for v in S['terra']), a, depth=4.2*s, seed=510 + i)
+              tuple(v*.92 for v in S['clay']), a, depth=4.2*s, seed=510 + i)
         for k in range(6):
             rgba(ctx, S['soot'], .4*a)
             ctx.rectangle(cx + dx*s - 64*s, cy - 44*s + k*18*s, 128*s - (k % 3)*30*s, 5*s); ctx.fill()
-    rgba(ctx, tuple(v*1.1 for v in S['terra']), .95*a); ctx.set_line_width(8*s)
+    rgba(ctx, tuple(v*1.05 for v in S['clay']), .95*a); ctx.set_line_width(8*s)
     ctx.new_path(); ctx.arc(cx, cy + 2*s, 26*s, 0, 2*math.pi); ctx.stroke()
 
 
@@ -577,7 +577,7 @@ def ex_ironpillar(ctx, cx, cy, s=1., a=1., t=0.):
 def ex_sealedplate(ctx, cx, cy, s=1., a=1., t=0.):
     """a single engraved plate with a round seal fixed to one edge"""
     carve(ctx, lambda: rrect(ctx, cx - 120*s, cy - 70*s, 212*s, 142*s, 6*s),
-          tuple(v*1.16 for v in S['terra']), a, depth=4.4*s, seed=540)
+          tuple(v*.94 for v in S['clay']), a, depth=4.4*s, seed=540)
     for k in range(7):
         rgba(ctx, S['soot'], .4*a)
         ctx.rectangle(cx - 100*s, cy - 52*s + k*18*s, 170*s - (k % 3)*36*s, 5*s); ctx.fill()
@@ -635,11 +635,17 @@ def ex_kailasa(ctx, cx, cy, s=1., a=1., t=0.):
     """Kailasa at Ellora: a temple standing free in a courtyard cut down into
     the rock around it. Architecture only; the sanctum stays empty."""
     # the cut pit: rock walls on three sides, the courtyard floor between them
-    for dx in (-150, 150):
-        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 46*s, cy - 104*s, 92*s, 200*s),
-              tuple(v*1.06 for v in S['basalt']), a, depth=5*s, seed=590)
+    rock = tuple(v*.78 for v in S['clay'])
+    for i, dx in enumerate((-150, 150)):
+        carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx*s - 48*s, cy + 96*s), (cx + dx*s - 44*s, cy - 100*s),
+                                            (cx + dx*s + 4*s, cy - 112*s), (cx + dx*s + 46*s, cy - 96*s),
+                                            (cx + dx*s + 44*s, cy + 96*s)]),
+              rock, a, depth=5*s, tex=.5, seed=590 + i)
+        for k in range(5):                    # strata, so it reads as a cut hillside
+            rgba(ctx, S['soot'], .14*a)
+            ctx.rectangle(cx + dx*s - 44*s, cy - 82*s + k*36*s, 88*s, 5*s); ctx.fill()
     carve(ctx, lambda: ctx.rectangle(cx - 104*s, cy + 72*s, 208*s, 26*s),
-          tuple(v*.96 for v in S['basalt']), a, depth=3*s, seed=591)
+          tuple(v*.86 for v in S['clay']), a, depth=3*s, seed=592)
     # the temple itself, left standing in the middle
     carve(ctx, lambda: ctx.rectangle(cx - 62*s, cy + 6*s, 124*s, 72*s), S['sand'], a, depth=4.4*s, seed=592)
     for k in range(5):
