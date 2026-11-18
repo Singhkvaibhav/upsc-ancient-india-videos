@@ -388,3 +388,123 @@ EXHIBITS.update({
     20: (ex_rockedict, 'EP 20 · ROCK EDICT'),
     21: (ex_pillarsection, 'EP 21 · POLISHED PILLAR'),
 })
+
+
+# ---------- Unit 5 exhibits ----------
+def ex_torana(ctx, cx, cy, s=1., a=1., t=0.):
+    """a stupa gateway: two posts and three crossbars, crowded with small panels.
+    The panels are ornament only; nothing revered is depicted."""
+    for dx in (-86, 86):
+        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 17*s, cy - 70*s, 34*s, 160*s),
+              S['sand'], a, depth=4.4*s, seed=200)
+        for k in range(4):
+            rgba(ctx, S['soot'], .26*a)
+            ctx.rectangle(cx + dx*s - 12*s, cy - 58*s + k*38*s, 24*s, 26*s); ctx.fill()
+    for k in range(3):
+        y = cy - 76*s - k*30*s
+        w_ = (124 - k*4)*s
+        carve(ctx, lambda y=y, w_=w_: rrect(ctx, cx - w_, y - 17*s, w_*2, 21*s, 4*s),
+              S['sand'], a, depth=3.4*s, seed=210 + k)
+        for j in range(7):
+            rgba(ctx, S['soot'], .22*a)
+            ctx.rectangle(cx - w_ + 12*s + j*(w_*2 - 24*s)/7, y - 13*s, 11*s, 13*s); ctx.fill()
+    carve(ctx, lambda: ctx.rectangle(cx - 110*s, cy + 90*s, 220*s, 16*s),
+          tuple(v*.86 for v in S['clay']), a, depth=3*s)
+
+
+def ex_bicoin(ctx, cx, cy, s=1., a=1., t=0.):
+    """a bilingual Indo-Greek coin: a generic profile, and lettering in two
+    different scripts around the two edges. The head is an invented form."""
+    carve(ctx, lambda: ctx.arc(cx, cy, 88*s, 0, 2*math.pi), tuple(v*1.05 for v in S['lime']), a, depth=5*s)
+    carve(ctx, lambda: poly(ctx, [(cx - 30*s, cy + 42*s), (cx - 36*s, cy - 4*s), (cx - 18*s, cy - 36*s),
+                                  (cx + 12*s, cy - 42*s), (cx + 30*s, cy - 16*s), (cx + 22*s, cy + 14*s),
+                                  (cx + 28*s, cy + 42*s)]),
+          tuple(v*.9 for v in S['lime']), a, depth=3.2*s, tex=.2, seed=220)
+    for k in range(10):                       # one script, upper arc: upright marks
+        ang = math.pi + k*math.pi/9
+        rgba(ctx, S['soot'], .34*a)
+        ctx.rectangle(cx + 74*s*math.cos(ang) - 2.5*s, cy + 74*s*math.sin(ang) - 6*s, 5*s, 12*s); ctx.fill()
+    for k in range(9):                        # the other, lower arc: sloped marks
+        ang = k*math.pi/8
+        rgba(ctx, S['soot'], .34*a)
+        ctx.save(); ctx.translate(cx + 74*s*math.cos(ang), cy + 74*s*math.sin(ang)); ctx.rotate(.6)
+        ctx.rectangle(-2.5*s, -6*s, 5*s, 12*s); ctx.fill(); ctx.restore()
+
+
+def ex_goldcoin(ctx, cx, cy, s=1., a=1., t=0.):
+    """a thick Kushana gold coin: a standing figure one side, an emblem the other"""
+    carve(ctx, lambda: ctx.arc(cx, cy, 86*s, 0, 2*math.pi), S['ochre'], a, depth=6.5*s)
+    carve(ctx, lambda: ctx.arc(cx, cy, 70*s, 0, 2*math.pi), tuple(v*1.08 for v in S['ochre']),
+          a, depth=3*s, tex=.18, seed=230)
+    carve(ctx, lambda: poly(ctx, [(cx - 14*s, cy + 44*s), (cx - 11*s, cy - 18*s), (cx - 24*s, cy - 10*s),
+                                  (cx - 18*s, cy - 26*s), (cx + 18*s, cy - 26*s), (cx + 24*s, cy - 10*s),
+                                  (cx + 11*s, cy - 18*s), (cx + 14*s, cy + 44*s)]),
+          tuple(v*.84 for v in S['ochre']), a, depth=3*s, tex=.2, seed=231)
+    carve(ctx, lambda: ctx.arc(cx, cy - 38*s, 13*s, 0, 2*math.pi),
+          tuple(v*.84 for v in S['ochre']), a, depth=2.6*s, seed=232)
+    for k in range(14):
+        ang = k*math.pi/7
+        rgba(ctx, S['soot'], .22*a)
+        ctx.arc(cx + 78*s*math.cos(ang), cy + 78*s*math.sin(ang), 3.4*s, 0, 2*math.pi); ctx.fill()
+
+
+def ex_herostone(ctx, cx, cy, s=1., a=1., t=0.):
+    """a hero stone: an upright slab, a standing figure in low relief, and lines
+    of early Tamil-Brahmi beneath it."""
+    carve(ctx, lambda: poly(ctx, [(cx - 62*s, cy + 92*s), (cx - 62*s, cy - 58*s), (cx, cy - 96*s),
+                                  (cx + 62*s, cy - 58*s), (cx + 62*s, cy + 92*s)]),
+          tuple(v*1.1 for v in S['basalt']), a, depth=5.4*s, seed=240)
+    carve(ctx, lambda: ctx.rectangle(cx - 9*s, cy - 56*s, 18*s, 54*s),
+          tuple(v*1.3 for v in S['basalt']), a, depth=3*s, tex=.2, seed=241)
+    carve(ctx, lambda: ctx.arc(cx, cy - 66*s, 11*s, 0, 2*math.pi),
+          tuple(v*1.3 for v in S['basalt']), a, depth=2.6*s, seed=242)
+    for dx in (-1, 1):
+        rgba(ctx, S['lime'], .3*a); ctx.set_line_width(4.4*s)
+        ctx.move_to(cx + dx*8*s, cy - 46*s); ctx.line_to(cx + dx*30*s, cy - 22*s); ctx.stroke()
+    for k in range(3):
+        rgba(ctx, S['lime'], .3*a)
+        ctx.rectangle(cx - 44*s, cy + 22*s + k*20*s, 88*s - (k % 2)*22*s, 6*s); ctx.fill()
+
+
+def ex_tamilleaf(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Tamil palm-leaf manuscript: long narrow leaves on a cord, boards either end"""
+    for k in range(6):
+        carve(ctx, lambda k=k: rrect(ctx, cx - 134*s + (k % 2)*5*s, cy - 46*s + k*17*s, 268*s, 14*s, 6*s),
+              S['sand'], a, depth=2.2*s, tex=.26, seed=250 + k)
+        for j in range(9):
+            rgba(ctx, S['soot'], .3*a)
+            ctx.rectangle(cx - 112*s + j*25*s, cy - 42*s + k*17*s, 15*s, 4*s); ctx.fill()
+    for dy in (-62, 60):
+        carve(ctx, lambda dy=dy: rrect(ctx, cx - 142*s, cy + dy*s, 284*s, 18*s, 5*s),
+              tuple(v*.76 for v in S['clay']), a, depth=3.2*s, seed=260)
+    rgba(ctx, S['soot'], .44*a); ctx.set_line_width(3*s)
+    ctx.move_to(cx - 70*s, cy - 64*s); ctx.line_to(cx - 70*s, cy + 80*s); ctx.stroke()
+
+
+def ex_amphora(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Roman amphora: a tall two-handled jar with a pointed base"""
+    def body():
+        ctx.move_to(cx - 44*s, cy - 52*s)
+        ctx.curve_to(cx - 62*s, cy + 10*s, cx - 26*s, cy + 56*s, cx, cy + 96*s)
+        ctx.curve_to(cx + 26*s, cy + 56*s, cx + 62*s, cy + 10*s, cx + 44*s, cy - 52*s)
+        ctx.close_path()
+    carve(ctx, body, tuple(v*1.3 for v in S['terra']), a, depth=5*s, seed=270)
+    carve(ctx, lambda: ctx.rectangle(cx - 17*s, cy - 94*s, 34*s, 46*s),
+          tuple(v*1.2 for v in S['terra']), a, depth=3.4*s, seed=271)
+    carve(ctx, lambda: rrect(ctx, cx - 27*s, cy - 106*s, 54*s, 18*s, 6*s),
+          tuple(v*1.24 for v in S['terra']), a, depth=3*s, seed=272)
+    for dx in (-1, 1):
+        rgba(ctx, tuple(v*1.1 for v in S['terra']), .95*a); ctx.set_line_width(11*s)
+        ctx.move_to(cx + dx*20*s, cy - 86*s)
+        ctx.curve_to(cx + dx*58*s, cy - 80*s, cx + dx*56*s, cy - 46*s, cx + dx*38*s, cy - 40*s)
+        ctx.stroke()
+
+
+EXHIBITS.update({
+    22: (ex_torana, 'EP 22 · STUPA GATEWAY'),
+    23: (ex_bicoin, 'EP 23 · BILINGUAL COIN'),
+    24: (ex_goldcoin, 'EP 24 · KUSHANA GOLD'),
+    25: (ex_herostone, 'EP 25 · HERO STONE'),
+    26: (ex_tamilleaf, 'EP 26 · TAMIL MANUSCRIPT'),
+    27: (ex_amphora, 'EP 27 · ROMAN AMPHORA'),
+})
