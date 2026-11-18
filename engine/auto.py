@@ -904,6 +904,147 @@ def Q_SHAPE(kind):
                       S['terra'], a, depth=2.6, seed=750)
         elif kind == 'cutpit':
             museum.ex_kailasa(ctx, cx, cy, 1.45, a, t)
+        elif kind == 'potlots':
+            carve(ctx, lambda: (ctx.save(), ctx.translate(cx, cy + 20), ctx.scale(1, .9),
+                                ctx.arc(0, 0, 96, math.pi*.88, math.pi*2.12), ctx.restore(),
+                                ctx.close_path()), tuple(v*.86 for v in S['clay']), a, depth=5.)
+            for k in range(6):
+                lx = cx - 70 + k*28
+                carve(ctx, lambda lx=lx, k=k: rrect(ctx, lx - 9, cy - 120 + (k % 3)*14, 18, 86, 5),
+                      S['sand'], a, depth=2.4, tex=.26, seed=950 + k)
+        elif kind == 'tanksluice':
+            carve(ctx, lambda: poly(ctx, [(cx - 340, cy - 10), (cx + 340, cy - 10),
+                                          (cx + 300, cy + 54), (cx - 300, cy + 54)]),
+                  tuple(v*.84 for v in S['clay']), a, depth=5.)
+            ctx.new_path(); ctx.rectangle(cx - 330, cy - 130, 660, 120)
+            ctx.set_source_rgba(.26, .44, .48, .62*a); ctx.fill()
+            carve(ctx, lambda: ctx.rectangle(cx - 26, cy - 14, 52, 72), S['sand'], a, depth=3.4, seed=960)
+            for k in range(4):
+                rgba(ctx, S['moss'] if 'moss' in S else S['clay'], .38*a)
+                ctx.rectangle(cx - 240 + k*130, cy + 86, 100, 46); ctx.fill()
+        elif kind == 'towerplan':
+            museum.ex_starplan(ctx, cx, cy, 1.7, a, t)
+        elif kind == 'stepwell':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy - 150, 600, 300),
+                  tuple(v*.82 for v in S['clay']), a, depth=5.)
+            for k in range(7):
+                w_ = 250 - k*34
+                ctx.new_path(); ctx.rectangle(cx - w_, cy - 128 + k*34, w_*2, 34)
+                ctx.set_source_rgba(0, 0, 0, (.2 + k*.07)*a); ctx.fill()
+                carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy - 128 + k*34, w_*2, 9),
+                      S['sand'], a, depth=1.8, tex=.2, seed=970 + k)
+            ctx.new_path(); ctx.rectangle(cx - 42, cy + 110, 84, 40)
+            ctx.set_source_rgba(.26, .44, .48, .74*a); ctx.fill()
+        elif kind == 'altarropes':
+            carve(ctx, lambda: ctx.rectangle(cx - 150, cy - 110, 300, 220), S['sand'], a, depth=4.4, seed=980)
+            rgba(ctx, S['ochre'], .6*a); ctx.set_line_width(4)
+            ctx.new_path(); ctx.arc(cx, cy, 124, 0, 2*math.pi); ctx.stroke()
+            for dx, dy in ((-150, -110), (150, -110), (-150, 110), (150, 110)):
+                carve(ctx, lambda dx=dx, dy=dy: ctx.arc(cx + dx, cy + dy, 11, 0, 2*math.pi),
+                      tuple(v*.8 for v in S['clay']), a, depth=2.4, seed=990)
+            rgba(ctx, S['ochre'], .42*a); ctx.set_line_width(3)
+            ctx.move_to(cx - 150, cy - 110); ctx.line_to(cx + 150, cy + 110); ctx.stroke()
+        elif kind == 'zerorules':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 140, 460, 280, 10), S['sand'], a, depth=5.)
+            rgba(ctx, S['verd'], .85*a); ctx.set_line_width(11)
+            ctx.new_path(); ctx.arc(cx, cy - 36, 42, 0, 2*math.pi); ctx.stroke()
+            for k in range(3):
+                rgba(ctx, S['soot'], .36*a)
+                ctx.rectangle(cx - 160, cy + 44 + k*28, 320 - k*90, 9); ctx.fill()
+        elif kind == 'instruments':
+            carve(ctx, lambda: rrect(ctx, cx - 270, cy - 110, 540, 220, 8),
+                  tuple(v*.82 for v in S['clay']), a, depth=4.6, seed=1000)
+            for k in range(6):
+                px = cx - 210 + k*84
+                carve(ctx, lambda px=px, k=k: rrect(ctx, px - 8, cy - 70, 16, 120 - (k % 3)*20, 6),
+                      S['lime'], a, depth=2.6, tex=.18, seed=1010 + k)
+                if k % 2:
+                    carve(ctx, lambda px=px: ctx.arc(px, cy - 80, 15, 0, 2*math.pi),
+                          S['lime'], a, depth=2.2, tex=.18, seed=1020 + k)
+        elif kind == 'gatequestion':
+            carve(ctx, lambda: ctx.rectangle(cx - 250, cy - 150, 500, 300), S['sand'], a, depth=5.4, seed=1030)
+            ctx.new_path()
+            ctx.move_to(cx - 72, cy + 150); ctx.line_to(cx - 72, cy - 10)
+            ctx.curve_to(cx - 72, cy - 80, cx + 72, cy - 80, cx + 72, cy - 10)
+            ctx.line_to(cx + 72, cy + 150); ctx.close_path()
+            ctx.set_source_rgba(0, 0, 0, .82*a); ctx.fill()
+            crowd(ctx, cy + 150, [cx - 180, cx + 180], .9*a, 1.7, t=t)
+        elif kind == 'scrollfrag':
+            museum.ex_staffjournal(ctx, cx, cy, 1.5, a, t)
+        elif kind == 'twoscripts':
+            carve(ctx, lambda: rrect(ctx, cx - 260, cy - 130, 520, 260, 8),
+                  tuple(v*.8 for v in S['clay']), a, depth=4.6, seed=1040)
+            for side in (-1, 1):
+                carve(ctx, lambda side=side: rrect(ctx, cx + side*130 - 100, cy - 96, 200, 192, 6),
+                      S['sand'], a, depth=3., seed=1050 + side)
+                for k in range(6):
+                    rgba(ctx, S['soot'], .34*a)
+                    if side < 0:
+                        ctx.rectangle(cx - 212 + 0, cy - 68 + k*28, 150 - (k % 3)*40, 6)
+                    else:
+                        ctx.save(); ctx.translate(cx + 62, cy - 68 + k*28); ctx.rotate(.12)
+                        ctx.rectangle(0, 0, 148 - (k % 3)*38, 6); ctx.restore()
+                    ctx.fill()
+        elif kind == 'immunity':
+            museum.ex_copperplate(ctx, cx, cy - 20, 1.45, a, t)
+            for k in range(3):
+                rgba(ctx, S['ochre'], .5*a)
+                ctx.rectangle(cx - 120 + k*96, cy + 110, 72, 12); ctx.fill()
+        elif kind == 'divertedrevenue':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy + 40, 150, 100),
+                  tuple(v*.9 for v in S['clay']), a, depth=3.6, seed=1060)
+            carve(ctx, lambda: rrect(ctx, cx + 120, cy - 130, 180, 110, 8), S['sand'], a, depth=4., seed=1061)
+            carve(ctx, lambda: rrect(ctx, cx - 60, cy - 10, 170, 110, 8), S['sand'], a, depth=4., seed=1062)
+            rgba(ctx, S['ochre'], .5*a); ctx.set_line_width(7)
+            ctx.move_to(cx - 150, cy + 70); ctx.line_to(cx - 60, cy + 40); ctx.stroke()
+            carve(ctx, lambda: poly(ctx, [(cx - 50, cy + 36), (cx - 86, cy + 20), (cx - 82, cy + 58)]),
+                  S['ochre'], a, depth=2.4, seed=1063)
+        elif kind == 'portcoins':
+            ctx.new_path(); ctx.rectangle(cx - 300, cy + 30, 600, 110)
+            ctx.set_source_rgba(.26, .44, .48, .58*a); ctx.fill()
+            for i, dx in enumerate((-150, 60)):
+                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 80, cy + 34), (cx + dx + 80, cy + 34),
+                                                    (cx + dx + 52, cy + 86), (cx + dx - 52, cy + 86)]),
+                      tuple(v*.9 for v in S['clay']), a, depth=3.6, seed=1070 + i)
+                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 5, cy - 86, 10, 120),
+                      tuple(v*.8 for v in S['clay']), a, depth=3., seed=1080 + i)
+            for k in range(5):
+                carve(ctx, lambda k=k: ctx.arc(cx + 150 + (k % 3)*44, cy - 100 + (k//3)*44, 20, 0, 2*math.pi),
+                      S['ochre'], a, depth=2.6, tex=.18, seed=1090 + k)
+        elif kind == 'letterforms':
+            carve(ctx, lambda: rrect(ctx, cx - 270, cy - 130, 540, 260, 8), S['sand'], a, depth=4.8)
+            for row in range(3):
+                for k in range(6):
+                    px = cx - 210 + k*84
+                    py = cy - 80 + row*78
+                    rgba(ctx, S['soot'], (.42 - row*.08)*a); ctx.set_line_width(5 - row)
+                    ctx.new_path()
+                    ctx.move_to(px - 16, py + 16); ctx.line_to(px - 16 + row*4, py - 16)
+                    ctx.line_to(px + 16, py - 16 + (k % 2)*8); ctx.stroke()
+        elif kind == 'debatehall':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy - 150, 600, 70), S['sand'], a, depth=4., seed=1100)
+            crowd(ctx, cy + 120, [cx - 200, cx - 120, cx + 120, cx + 200], .8*a, 1.4, t=t)
+            crowd(ctx, cy + 120, [cx], 1.0*a, 2.0, t=t)
+            carve(ctx, lambda: rrect(ctx, cx - 86, cy - 70, 172, 44, 7),
+                  tuple(v*.9 for v in S['sand']), a, depth=2.6, seed=1101)
+        elif kind == 'verses':
+            for k in range(6):
+                carve(ctx, lambda k=k: rrect(ctx, cx - 210 + (k % 2)*10, cy + 110 - k*38, 420, 32, 6),
+                      S['sand'], a, depth=2.8, tex=.24, seed=1110 + k)
+                for j in range(4):
+                    rgba(ctx, S['soot'], .3*a)
+                    ctx.rectangle(cx - 180 + j*104, cy + 120 - k*38, 70 - (j % 2)*22, 6); ctx.fill()
+        elif kind == 'womandonor':
+            museum.ex_womentablet(ctx, cx, cy, 1.6, a, t)
+        elif kind == 'undeciphered':
+            carve(ctx, lambda: rrect(ctx, cx - 160, cy - 160, 320, 320, 10), S['sand'], a, depth=5.4)
+            for k in range(7):
+                rgba(ctx, S['soot'], .46*a)
+                ctx.rectangle(cx - 120 + k*36, cy - 120, 20, 44 - (k % 3)*12); ctx.fill()
+            for k in range(5):
+                rgba(ctx, S['soot'], .3*a)
+                ctx.rectangle(cx - 100 + k*44, cy - 40, 16, 30); ctx.fill()
+            engraved(ctx, '?', cx, cy + 96, 92, a*.5, S['soot'], 'c')
         elif kind == 'mounds':
             for i, (dx, w_, h_) in enumerate(((-260, 240, 90), (20, 300, 130), (300, 200, 70))):
                 carve(ctx, lambda dx=dx, w_=w_, h_=h_: (ctx.save(), ctx.translate(cx + dx, cy + 70), ctx.scale(1, h_/w_*1.6),

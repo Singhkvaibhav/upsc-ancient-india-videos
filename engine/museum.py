@@ -666,3 +666,161 @@ EXHIBITS.update({
     33: (ex_ratha, 'EP 33 · MONOLITHIC RATHA'),
     34: (ex_kailasa, 'EP 34 · KAILASA AT ELLORA'),
 })
+
+
+# ---------- Units 7 and 8 exhibits ----------
+def ex_cholatower(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Chola vimana: many tiers narrowing to a rounded cap, over a dark sanctum"""
+    carve(ctx, lambda: ctx.rectangle(cx - 92*s, cy + 76*s, 184*s, 26*s), S['sand'], a, depth=4*s, seed=800)
+    for k in range(8):
+        w_ = (78 - k*8)*s
+        carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy + 72*s - k*22*s, w_*2, 20*s),
+              S['sand'], a, depth=3.*s, tex=.24, seed=810 + k)
+        for j in range(max(1, 5 - k//2)):
+            rgba(ctx, S['soot'], .2*a)
+            ctx.rectangle(cx - w_ + 7*s + j*(w_*2 - 14*s)/max(1, 5 - k//2), cy + 76*s - k*22*s, 6*s, 11*s)
+            ctx.fill()
+    carve(ctx, lambda: (ctx.save(), ctx.translate(cx, cy - 110*s), ctx.scale(1, .7),
+                        ctx.arc(0, 0, 30*s, 0, 2*math.pi), ctx.restore(), ctx.close_path()),
+          S['sand'], a, depth=3.2*s, seed=820)
+    ctx.new_path(); ctx.rectangle(cx - 17*s, cy + 46*s, 34*s, 56*s)
+    ctx.set_source_rgba(0, 0, 0, .84*a); ctx.fill()
+
+
+def ex_starplan(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Hoysala star plan seen from above: a many-pointed star around a shrine"""
+    def star(r1, r2, pts=16):
+        for i in range(pts*2):
+            r = r1 if i % 2 == 0 else r2
+            ang = i*math.pi/pts - math.pi/2
+            x, y = cx + r*math.cos(ang), cy + r*math.sin(ang)
+            ctx.line_to(x, y) if i else ctx.move_to(x, y)
+        ctx.close_path()
+    carve(ctx, lambda: star(104*s, 74*s), S['sand'], a, depth=4.6*s, seed=830)
+    carve(ctx, lambda: star(66*s, 46*s), tuple(v*.92 for v in S['sand']), a, depth=3*s, seed=831)
+    ctx.new_path(); ctx.arc(cx, cy, 22*s, 0, 2*math.pi)
+    ctx.set_source_rgba(0, 0, 0, .8*a); ctx.fill()
+
+
+def ex_hillfort(ctx, cx, cy, s=1., a=1., t=0.):
+    """a hill fort: concentric walls stepping up a rock outcrop, with a tank"""
+    carve(ctx, lambda: poly(ctx, [(cx - 148*s, cy + 92*s), (cx - 96*s, cy - 20*s), (cx - 20*s, cy - 78*s),
+                                  (cx + 62*s, cy - 46*s), (cx + 146*s, cy + 92*s)]),
+          tuple(v*.84 for v in S['clay']), a, depth=5.4*s, seed=840)
+    for k, (dy, w_) in enumerate(((56, 126), (14, 96), (-26, 60))):
+        carve(ctx, lambda dy=dy, w_=w_: ctx.rectangle(cx - w_*s, cy + dy*s, w_*2*s, 15*s),
+              S['sand'], a, depth=2.8*s, tex=.22, seed=850 + k)
+        for j in range(5):
+            rgba(ctx, S['soot'], .18*a)
+            ctx.rectangle(cx - w_*s + 10*s + j*(w_*2*s - 20*s)/5, cy + dy*s, 7*s, 7*s); ctx.fill()
+    ctx.new_path(); ctx.save(); ctx.translate(cx + 34*s, cy + 44*s); ctx.scale(1.5, 1.)
+    ctx.arc(0, 0, 18*s, 0, 2*math.pi); ctx.restore()
+    ctx.set_source_rgba(.26, .44, .48, .66*a); ctx.fill()
+
+
+def ex_zerostone(ctx, cx, cy, s=1., a=1., t=0.):
+    """a slab with a line of numerals, one of them a small circle"""
+    carve(ctx, lambda: rrect(ctx, cx - 134*s, cy - 70*s, 268*s, 140*s, 6*s),
+          tuple(v*1.08 for v in S['basalt']), a, depth=5*s, seed=860)
+    for k in range(4):
+        px = cx - 84*s + k*56*s
+        if k == 2:
+            rgba(ctx, S['verd'], .9*a); ctx.set_line_width(7*s)
+            ctx.new_path(); ctx.arc(px, cy, 17*s, 0, 2*math.pi); ctx.stroke()
+        else:
+            rgba(ctx, S['lime'], .44*a)
+            for j in range(2):
+                ctx.rectangle(px - 15*s, cy - 16*s + j*20*s, 30*s - j*11*s, 7*s); ctx.fill()
+    for k in range(3):
+        rgba(ctx, S['lime'], .26*a)
+        ctx.rectangle(cx - 104*s, cy + 36*s + k*11*s, 208*s - (k % 2)*60*s, 4*s); ctx.fill()
+
+
+def ex_nalandaseal(ctx, cx, cy, s=1., a=1., t=0.):
+    """a round clay monastery seal: script around a small central emblem"""
+    carve(ctx, lambda: ctx.arc(cx, cy, 86*s, 0, 2*math.pi),
+          tuple(v*.96 for v in S['clay']), a, depth=5*s, seed=870)
+    carve(ctx, lambda: ctx.arc(cx, cy, 44*s, 0, 2*math.pi),
+          tuple(v*.88 for v in S['clay']), a, depth=2.8*s, seed=871)
+    for k in range(8):                       # a simple wheel emblem, not a figure
+        ang = k*math.pi/4
+        rgba(ctx, S['soot'], .34*a); ctx.set_line_width(4*s)
+        ctx.move_to(cx + 12*s*math.cos(ang), cy + 12*s*math.sin(ang))
+        ctx.line_to(cx + 34*s*math.cos(ang), cy + 34*s*math.sin(ang)); ctx.stroke()
+    for k in range(22):
+        ang = k*math.pi/11
+        rgba(ctx, S['soot'], .3*a)
+        ctx.save(); ctx.translate(cx + 66*s*math.cos(ang), cy + 66*s*math.sin(ang)); ctx.rotate(ang)
+        ctx.rectangle(-2*s, -6*s, 4*s, 12*s); ctx.fill(); ctx.restore()
+
+
+def ex_staffjournal(ctx, cx, cy, s=1., a=1., t=0.):
+    """a worn traveller's staff laid beside a bound bundle of writing sheets"""
+    carve(ctx, lambda: poly(ctx, [(cx - 128*s, cy + 76*s), (cx - 112*s, cy + 78*s),
+                                  (cx - 40*s, cy - 92*s), (cx - 54*s, cy - 94*s)]),
+          tuple(v*.78 for v in S['clay']), a, depth=3.6*s, seed=880)
+    carve(ctx, lambda: ctx.arc(cx - 47*s, cy - 96*s, 15*s, 0, 2*math.pi),
+          tuple(v*.84 for v in S['clay']), a, depth=3*s, seed=881)
+    for k in range(5):
+        carve(ctx, lambda k=k: rrect(ctx, cx + 10*s + (k % 2)*5*s, cy + 36*s - k*17*s, 150*s, 15*s, 4*s),
+              S['sand'], a, depth=2.4*s, tex=.26, seed=890 + k)
+        for j in range(5):
+            rgba(ctx, S['soot'], .32*a)
+            ctx.rectangle(cx + 24*s + j*26*s, cy + 40*s - k*17*s, 16*s, 4*s); ctx.fill()
+    carve(ctx, lambda: rrect(ctx, cx + 4*s, cy + 50*s, 164*s, 16*s, 5*s),
+          tuple(v*.76 for v in S['clay']), a, depth=3*s, seed=900)
+
+
+def ex_boundarystone(ctx, cx, cy, s=1., a=1., t=0.):
+    """a squat upright boundary stone with a carved line and a few words"""
+    carve(ctx, lambda: poly(ctx, [(cx - 54*s, cy + 92*s), (cx - 48*s, cy - 52*s), (cx, cy - 78*s),
+                                  (cx + 48*s, cy - 52*s), (cx + 54*s, cy + 92*s)]),
+          tuple(v*1.1 for v in S['basalt']), a, depth=5.2*s, seed=910)
+    rgba(ctx, S['lime'], .36*a); ctx.set_line_width(5*s)
+    ctx.move_to(cx - 40*s, cy - 16*s); ctx.line_to(cx + 40*s, cy - 16*s); ctx.stroke()
+    for k in range(3):
+        rgba(ctx, S['lime'], .3*a)
+        ctx.rectangle(cx - 34*s, cy + 10*s + k*18*s, 68*s - (k % 2)*22*s, 6*s); ctx.fill()
+
+
+def ex_cointray(ctx, cx, cy, s=1., a=1., t=0.):
+    """a shallow tray of coins in rows, each visibly different"""
+    carve(ctx, lambda: rrect(ctx, cx - 146*s, cy - 72*s, 292*s, 152*s, 8*s),
+          tuple(v*.8 for v in S['clay']), a, depth=4.6*s, seed=920)
+    cols = (S['lime'], S['lime'], S['ochre'], S['ochre'], S['lime'], S['ochre'])
+    for k in range(12):
+        px = cx - 112*s + (k % 4)*74*s
+        py = cy - 36*s + (k//4)*38*s
+        col = cols[k % 6]
+        if k % 4 == 0:                        # punch-marked: irregular
+            carve(ctx, lambda px=px, py=py: poly(ctx, [(px - 22*s, py - 16*s), (px + 18*s, py - 20*s),
+                                                       (px + 24*s, py + 12*s), (px - 10*s, py + 20*s)]),
+                  col, a, depth=2.6*s, tex=.2, seed=930 + k)
+        else:
+            r = (20 if k % 3 else 25)*s
+            carve(ctx, lambda px=px, py=py, r=r: ctx.arc(px, py, r, 0, 2*math.pi),
+                  col, a, depth=2.6*s, tex=.2, seed=930 + k)
+
+
+def ex_womentablet(ctx, cx, cy, s=1., a=1., t=0.):
+    """a tablet whose every line begins with a name, each line set slightly apart"""
+    carve(ctx, lambda: rrect(ctx, cx - 136*s, cy - 86*s, 272*s, 172*s, 7*s), S['sand'], a, depth=5*s, seed=940)
+    for k in range(6):
+        y = cy - 58*s + k*23*s
+        rgba(ctx, S['soot'], .5*a)             # the name, set a little bolder
+        ctx.rectangle(cx - 108*s, y, 58*s - (k % 3)*9*s, 8*s); ctx.fill()
+        rgba(ctx, S['soot'], .28*a)            # what she gave
+        ctx.rectangle(cx - 40*s, y + 1*s, 142*s - (k % 4)*34*s, 6*s); ctx.fill()
+
+
+EXHIBITS.update({
+    35: (ex_cholatower, 'EP 35 · CHOLA TEMPLE TOWER'),
+    36: (ex_starplan, 'EP 36 · HOYSALA STAR PLAN'),
+    37: (ex_hillfort, 'EP 37 · HILL FORT'),
+    38: (ex_zerostone, 'EP 38 · AN EARLY ZERO'),
+    39: (ex_nalandaseal, 'EP 39 · NALANDA SEAL'),
+    40: (ex_staffjournal, 'EP 40 · STAFF AND JOURNAL'),
+    41: (ex_boundarystone, 'EP 41 · BOUNDARY STONE'),
+    42: (ex_cointray, 'EP 42 · A TRAY OF COINS'),
+    43: (ex_womentablet, 'EP 43 · A TABLET OF NAMES'),
+})
