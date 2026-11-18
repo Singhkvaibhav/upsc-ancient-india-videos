@@ -522,3 +522,141 @@ EXHIBITS.update({
     26: (ex_tamilleaf, 'EP 26 · TAMIL MANUSCRIPT'),
     27: (ex_amphora, 'EP 27 · ROMAN AMPHORA'),
 })
+
+
+# ---------- Unit 6 exhibits ----------
+def ex_guptacoin(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Gupta gold coin: a standing archer one face, a seated figure the other,
+    both as simple carved forms, with a Sanskrit legend round the rim."""
+    carve(ctx, lambda: ctx.arc(cx, cy, 84*s, 0, 2*math.pi), S['ochre'], a, depth=5.6*s)
+    carve(ctx, lambda: ctx.arc(cx, cy, 68*s, 0, 2*math.pi), tuple(v*1.07 for v in S['ochre']),
+          a, depth=2.6*s, tex=.18, seed=500)
+    carve(ctx, lambda: poly(ctx, [(cx - 10*s, cy + 46*s), (cx - 8*s, cy - 20*s), (cx - 20*s, cy - 30*s),
+                                  (cx + 2*s, cy - 36*s), (cx + 18*s, cy - 24*s), (cx + 10*s, cy - 16*s),
+                                  (cx + 14*s, cy + 46*s)]),
+          tuple(v*.84 for v in S['ochre']), a, depth=3*s, tex=.2, seed=501)
+    rgba(ctx, S['soot'], .36*a); ctx.set_line_width(4*s)   # the bow
+    ctx.new_path(); ctx.arc(cx - 34*s, cy + 4*s, 30*s, -1.2, 1.2); ctx.stroke()
+    for k in range(16):
+        ang = k*math.pi/8
+        rgba(ctx, S['soot'], .22*a)
+        ctx.rectangle(cx + 76*s*math.cos(ang) - 2.4*s, cy + 76*s*math.sin(ang) - 5*s, 5*s, 10*s); ctx.fill()
+
+
+def ex_copperplate(ctx, cx, cy, s=1., a=1., t=0.):
+    """two copper plates joined by a ring, engraved on the inner faces"""
+    for i, dx in enumerate((-96, 96)):
+        carve(ctx, lambda dx=dx: rrect(ctx, cx + dx*s - 86*s, cy - 62*s, 172*s, 128*s, 6*s),
+              tuple(v*1.18 for v in S['terra']), a, depth=4.2*s, seed=510 + i)
+        for k in range(6):
+            rgba(ctx, S['soot'], .4*a)
+            ctx.rectangle(cx + dx*s - 64*s, cy - 44*s + k*18*s, 128*s - (k % 3)*30*s, 5*s); ctx.fill()
+    rgba(ctx, tuple(v*1.1 for v in S['terra']), .95*a); ctx.set_line_width(8*s)
+    ctx.new_path(); ctx.arc(cx, cy + 2*s, 26*s, 0, 2*math.pi); ctx.stroke()
+
+
+def ex_ironpillar(ctx, cx, cy, s=1., a=1., t=0.):
+    """the Iron Pillar: a tall tapering shaft with an inscription band and a
+    fluted capital. Dark metal, almost unrusted."""
+    iron = (0.22, 0.20, 0.19)
+    carve(ctx, lambda: poly(ctx, [(cx - 20*s, cy + 96*s), (cx - 13*s, cy - 78*s),
+                                  (cx + 13*s, cy - 78*s), (cx + 20*s, cy + 96*s)]),
+          iron, a, depth=4.6*s, seed=520)
+    carve(ctx, lambda: ctx.rectangle(cx - 22*s, cy - 94*s, 44*s, 18*s), iron, a, depth=3*s, seed=521)
+    for k in range(4):
+        w_ = (30 - k*5)*s
+        carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy - 112*s + k*9*s, w_*2, 7*s),
+              tuple(v*1.5 for v in iron), a, depth=2.2*s, tex=.2, seed=530 + k)
+    for k in range(4):                       # the inscription band
+        rgba(ctx, S['dust'], .34*a)
+        ctx.rectangle(cx - 14*s, cy - 46*s + k*13*s, 28*s, 4*s); ctx.fill()
+    carve(ctx, lambda: ctx.rectangle(cx - 44*s, cy + 96*s, 88*s, 18*s),
+          tuple(v*.9 for v in S['sand']), a, depth=3.4*s)
+
+
+def ex_sealedplate(ctx, cx, cy, s=1., a=1., t=0.):
+    """a single engraved plate with a round seal fixed to one edge"""
+    carve(ctx, lambda: rrect(ctx, cx - 120*s, cy - 70*s, 212*s, 142*s, 6*s),
+          tuple(v*1.16 for v in S['terra']), a, depth=4.4*s, seed=540)
+    for k in range(7):
+        rgba(ctx, S['soot'], .4*a)
+        ctx.rectangle(cx - 100*s, cy - 52*s + k*18*s, 170*s - (k % 3)*36*s, 5*s); ctx.fill()
+    carve(ctx, lambda: ctx.arc(cx + 116*s, cy + 36*s, 32*s, 0, 2*math.pi),
+          tuple(v*1.04 for v in S['clay']), a, depth=4*s, seed=541)
+    carve(ctx, lambda: ctx.arc(cx + 116*s, cy + 36*s, 19*s, 0, 2*math.pi),
+          tuple(v*.92 for v in S['clay']), a, depth=2.4*s, seed=542)
+
+
+def ex_painted(ctx, cx, cy, s=1., a=1., t=0.):
+    """a fragment of painted plaster: a floral and geometric border, colours
+    still readable. Ornament only; no figures."""
+    carve(ctx, lambda: poly(ctx, [(cx - 132*s, cy + 76*s), (cx - 142*s, cy - 58*s),
+                                  (cx - 40*s, cy - 82*s), (cx + 112*s, cy - 70*s),
+                                  (cx + 136*s, cy + 44*s), (cx + 40*s, cy + 84*s)]),
+          S['lime'], a, depth=4.4*s, seed=550)
+    ctx.save(); ctx.new_path()
+    poly(ctx, [(cx - 132*s, cy + 76*s), (cx - 142*s, cy - 58*s), (cx - 40*s, cy - 82*s),
+               (cx + 112*s, cy - 70*s), (cx + 136*s, cy + 44*s), (cx + 40*s, cy + 84*s)])
+    ctx.clip()
+    for k in range(3):
+        rgba(ctx, S['terra'], (.5 - k*.08)*a)
+        ctx.rectangle(cx - 150*s, cy - 58*s + k*46*s, 300*s, 11*s); ctx.fill()
+    for k in range(7):                       # a row of simple rosettes
+        px = cx - 120*s + k*38*s
+        rgba(ctx, S['ochre'], .5*a); ctx.arc(px, cy + 4*s, 13*s, 0, 2*math.pi); ctx.fill()
+        rgba(ctx, S['clay'], .5*a); ctx.arc(px, cy + 4*s, 6*s, 0, 2*math.pi); ctx.fill()
+    for k in range(9):                       # a lotus-petal band beneath
+        px = cx - 128*s + k*32*s
+        rgba(ctx, S['pine'] if 'pine' in S else S['clay'], .34*a)
+        ctx.move_to(px, cy + 52*s); ctx.curve_to(px - 12*s, cy + 32*s, px + 12*s, cy + 32*s, px, cy + 52*s)
+        ctx.fill()
+    ctx.restore()
+
+
+def ex_ratha(ctx, cx, cy, s=1., a=1., t=0.):
+    """a monolithic ratha: a small temple cut whole from one boulder, with a
+    stepped tower and a dark empty doorway."""
+    carve(ctx, lambda: ctx.rectangle(cx - 92*s, cy + 40*s, 184*s, 48*s), S['sand'], a, depth=4.6*s, seed=560)
+    for k in range(4):
+        w_ = (78 - k*17)*s
+        carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy + 34*s - k*28*s, w_*2, 26*s),
+              S['sand'], a, depth=3.4*s, tex=.24, seed=570 + k)
+        for j in range(4 - k):
+            rgba(ctx, S['soot'], .2*a)
+            ctx.rectangle(cx - w_ + 10*s + j*(w_*2 - 20*s)/max(1, 4 - k), cy + 40*s - k*28*s, 9*s, 13*s)
+            ctx.fill()
+    carve(ctx, lambda: ctx.arc(cx, cy - 86*s, 26*s, math.pi, 2*math.pi), S['sand'], a, depth=3*s, seed=580)
+    ctx.new_path()                           # the sanctum: a dark, empty opening
+    ctx.rectangle(cx - 19*s, cy + 36*s, 38*s, 52*s)
+    ctx.set_source_rgba(0, 0, 0, .84*a); ctx.fill()
+
+
+def ex_kailasa(ctx, cx, cy, s=1., a=1., t=0.):
+    """Kailasa at Ellora: a temple standing free in a courtyard cut down into
+    the rock around it. Architecture only; the sanctum stays empty."""
+    # the cut pit: rock walls on three sides, the courtyard floor between them
+    for dx in (-150, 150):
+        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 46*s, cy - 104*s, 92*s, 200*s),
+              tuple(v*1.06 for v in S['basalt']), a, depth=5*s, seed=590)
+    carve(ctx, lambda: ctx.rectangle(cx - 104*s, cy + 72*s, 208*s, 26*s),
+          tuple(v*.96 for v in S['basalt']), a, depth=3*s, seed=591)
+    # the temple itself, left standing in the middle
+    carve(ctx, lambda: ctx.rectangle(cx - 62*s, cy + 6*s, 124*s, 72*s), S['sand'], a, depth=4.4*s, seed=592)
+    for k in range(5):
+        w_ = (54 - k*10)*s
+        carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy + 2*s - k*22*s, w_*2, 20*s),
+              S['sand'], a, depth=3.2*s, tex=.24, seed=600 + k)
+    carve(ctx, lambda: ctx.arc(cx, cy - 104*s, 18*s, math.pi, 2*math.pi), S['sand'], a, depth=2.6*s, seed=610)
+    ctx.new_path(); ctx.rectangle(cx - 15*s, cy + 34*s, 30*s, 44*s)
+    ctx.set_source_rgba(0, 0, 0, .84*a); ctx.fill()
+
+
+EXHIBITS.update({
+    28: (ex_guptacoin, 'EP 28 · GUPTA GOLD COIN'),
+    29: (ex_copperplate, 'EP 29 · COPPER-PLATE GRANT'),
+    30: (ex_ironpillar, 'EP 30 · THE IRON PILLAR'),
+    31: (ex_sealedplate, 'EP 31 · SEALED COPPER PLATE'),
+    32: (ex_painted, 'EP 32 · PAINTED PANEL'),
+    33: (ex_ratha, 'EP 33 · MONOLITHIC RATHA'),
+    34: (ex_kailasa, 'EP 34 · KAILASA AT ELLORA'),
+})

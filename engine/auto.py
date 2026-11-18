@@ -722,6 +722,175 @@ def Q_SHAPE(kind):
             ctx.set_source_rgba(.26, .44, .48, .52*a); ctx.fill()
             carve(ctx, lambda: poly(ctx, [(cx + 150, cy + 60), (cx + 270, cy + 60), (cx + 240, cy + 112),
                                           (cx + 180, cy + 112)]), tuple(v*.9 for v in S['clay']), a, depth=3.6)
+        elif kind == 'prashasti':
+            carve(ctx, lambda: ctx.rectangle(cx - 46, cy - 170, 92, 320), S['sand'], a, depth=5.4)
+            carve(ctx, lambda: rrect(ctx, cx - 40, cy - 130, 80, 200, 6),
+                  tuple(v*.9 for v in S['sand']), a, depth=2.6, seed=620)
+            for k in range(9):
+                rgba(ctx, S['soot'], .36*a)
+                ctx.rectangle(cx - 30, cy - 116 + k*20, 60 - (k % 3)*14, 5); ctx.fill()
+            for k in range(3):
+                w_ = 56 - k*12
+                carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy - 192 + k*12, w_*2, 11),
+                      S['sand'], a, depth=2.4, tex=.2, seed=630 + k)
+        elif kind == 'vina':
+            carve(ctx, lambda: rrect(ctx, cx - 240, cy - 130, 480, 260, 10), S['sand'], a, depth=5.)
+            carve(ctx, lambda: ctx.arc(cx - 100, cy + 40, 52, 0, 2*math.pi),
+                  tuple(v*.88 for v in S['sand']), a, depth=3.4, seed=640)
+            carve(ctx, lambda: ctx.arc(cx + 130, cy - 40, 34, 0, 2*math.pi),
+                  tuple(v*.88 for v in S['sand']), a, depth=3., seed=641)
+            rgba(ctx, S['clay'], .9*a); ctx.set_line_width(13)
+            ctx.move_to(cx - 96, cy + 34); ctx.line_to(cx + 126, cy - 44); ctx.stroke()
+            for k in range(4):
+                rgba(ctx, S['ochre'], .46*a); ctx.set_line_width(2.4)
+                ctx.move_to(cx - 96, cy + 22 - k*6); ctx.line_to(cx + 126, cy - 56 - k*6); ctx.stroke()
+        elif kind == 'title':
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 80, 500, 160, 10), S['sand'], a, depth=4.8)
+            carve(ctx, lambda: rrect(ctx, cx - 210, cy - 52, 420, 104, 7),
+                  tuple(v*.9 for v in S['sand']), a, depth=2.6, seed=650)
+            for k in range(2):
+                rgba(ctx, S['ochre'], .5*a)
+                ctx.rectangle(cx - 170, cy - 24 + k*34, 340 - k*120, 11); ctx.fill()
+        elif kind == 'province':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 150, 460, 110, 8), S['sand'], a, depth=4.4)
+            crowd(ctx, cy - 48, [cx], .9*a, 1.5, t=t)
+            for i, dx in enumerate((-180, -60, 60, 180)):
+                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 44, cy + 50, 88, 80),
+                      tuple(v*.9 for v in S['clay']), a, depth=3.2, seed=660 + i)
+                rgba(ctx, S['ochre'], .34*a); ctx.set_line_width(3)
+                ctx.move_to(cx, cy - 10); ctx.line_to(cx + dx, cy + 44); ctx.stroke()
+        elif kind == 'plateandring':
+            museum.ex_copperplate(ctx, cx, cy, 1.5, a, t)
+        elif kind == 'pilgrim':
+            crowd(ctx, cy + 110, [cx - 40], 1.1*a, 2.4, t=t)
+            carve(ctx, lambda: ctx.rectangle(cx + 54, cy - 130, 9, 240),
+                  tuple(v*.8 for v in S['clay']), a, depth=3.)
+            carve(ctx, lambda: rrect(ctx, cx + 96, cy - 70, 150, 190, 8), S['sand'], a, depth=4., seed=670)
+            for k in range(6):
+                rgba(ctx, S['soot'], .34*a)
+                ctx.rectangle(cx + 118, cy - 44 + k*26, 106 - (k % 2)*30, 6); ctx.fill()
+        elif kind == 'aryabhata':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 140, 460, 280, 10), S['sand'], a, depth=5.)
+            rgba(ctx, S['ochre'], .5*a); ctx.set_line_width(5)
+            ctx.new_path(); ctx.arc(cx, cy - 20, 92, 0, 2*math.pi); ctx.stroke()
+            carve(ctx, lambda: ctx.arc(cx, cy - 20, 40, 0, 2*math.pi),
+                  tuple(v*.9 for v in S['sand']), a, depth=3., seed=680)
+            rgba(ctx, S['ochre'], .42*a); ctx.set_line_width(4)
+            for k in range(8):
+                ang = k*math.pi/4
+                ctx.move_to(cx + 44*math.cos(ang), cy - 20 + 44*math.sin(ang))
+                ctx.line_to(cx + 88*math.cos(ang), cy - 20 + 88*math.sin(ang))
+            ctx.stroke()
+            engraved(ctx, '476 CE', cx, cy + 112, 30, a*.92, S['ochre'], 'c', serif=False)
+        elif kind == 'placevalue':
+            for k in range(4):
+                x = cx - 240 + k*160
+                carve(ctx, lambda x=x, k=k: rrect(ctx, x - 64, cy - 90, 128, 180, 8),
+                      S['sand'], a, depth=4., seed=690 + k)
+                if k == 2:
+                    rgba(ctx, S['ochre'], .85*a); ctx.set_line_width(13)
+                    ctx.new_path(); ctx.save(); ctx.translate(x, cy); ctx.scale(.72, 1.)
+                    ctx.arc(0, 0, 44, 0, 2*math.pi); ctx.restore(); ctx.stroke()
+                else:
+                    for j in range(3):
+                        rgba(ctx, S['soot'], .4*a)
+                        ctx.rectangle(x - 36, cy - 44 + j*34, 72 - j*18, 10); ctx.fill()
+        elif kind == 'playtitle':
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 140, 500, 280, 10), S['sand'], a, depth=5.)
+            rgba(ctx, S['clay'], .8*a)
+            ctx.rectangle(cx - 210, cy - 108, 420, 22); ctx.fill()
+            for k in range(9):               # a hanging curtain, so it reads as theatre
+                rgba(ctx, S['clay'], (.5 - (k % 2)*.12)*a)
+                ctx.rectangle(cx - 206 + k*46, cy - 86, 38, 96); ctx.fill()
+            for k in range(2):
+                rgba(ctx, S['ochre'], .5*a)
+                ctx.rectangle(cx - 150, cy + 42 + k*34, 300 - k*120, 11); ctx.fill()
+        elif kind == 'narmadastop':
+            ctx.new_path(); ctx.move_to(cx - 330, cy + 40)
+            ctx.curve_to(cx - 100, cy - 20, cx + 100, cy + 100, cx + 330, cy + 30)
+            ctx.set_source_rgba(.26, .44, .48, .66*a); ctx.set_line_width(46); ctx.stroke()
+            crowd(ctx, cy - 70, [cx - 150, cx - 90, cx - 30], .85*a, 1.5, t=t)
+            crowd(ctx, cy + 150, [cx + 40, cx + 100, cx + 160], .85*a, 1.5, t=t)
+        elif kind == 'monastery':
+            carve(ctx, lambda: ctx.rectangle(cx - 280, cy - 140, 560, 280), S['sand'], a, depth=5.4)
+            for k in range(12):
+                ctx.new_path()
+                ctx.rectangle(cx - 250 + (k % 6)*86, cy - 104 + (k//6)*128, 60, 96)
+                ctx.set_source_rgba(0, 0, 0, .74*a); ctx.fill()
+        elif kind == 'regent':
+            carve(ctx, lambda: rrect(ctx, cx - 190, cy - 150, 380, 108, 8), S['sand'], a, depth=4.4)
+            crowd(ctx, cy + 10, [cx], 1.0*a, 2.0, t=t)
+            crowd(ctx, cy + 140, [cx - 110, cx + 110], .75*a, 1.3, t=t)
+        elif kind == 'cliffcaves':
+            def cliff():
+                ctx.move_to(cx - 400, cy + 160)
+                ctx.curve_to(cx - 330, cy - 120, cx + 330, cy - 120, cx + 400, cy + 160)
+                ctx.close_path()
+            carve(ctx, cliff, tuple(v*1.08 for v in S['basalt']), a, depth=6., seed=700)
+            ctx.save(); ctx.new_path(); cliff(); ctx.clip()
+            for k in range(7):
+                x = cx - 300 + k*100
+                y = cy + 60 - int(abs(3 - k) * -18)
+                ctx.new_path()
+                ctx.move_to(x - 28, cy + 160); ctx.line_to(x - 28, y)
+                ctx.curve_to(x - 28, y - 46, x + 28, y - 46, x + 28, y)
+                ctx.line_to(x + 28, cy + 160); ctx.close_path()
+                ctx.set_source_rgba(0, 0, 0, .8*a); ctx.fill()
+            ctx.restore()
+            ctx.new_path(); ctx.rectangle(cx - 420, cy + 150, 840, 40)
+            ctx.set_source_rgba(.26, .44, .48, .52*a); ctx.fill()
+        elif kind == 'plasterlayers':
+            carve(ctx, lambda: rrect(ctx, cx - 240, cy - 130, 480, 260, 8),
+                  tuple(v*1.06 for v in S['basalt']), a, depth=5.)
+            for k, col in enumerate((S['clay'], S['sand'], S['lime'])):
+                carve(ctx, lambda k=k: ctx.rectangle(cx - 210, cy - 96 + k*42, 420, 38),
+                      col, a, depth=2.8, tex=.24, seed=710 + k)
+            for k in range(5):
+                rgba(ctx, (S['terra'], S['ochre'], S['clay'])[k % 3], .55*a)
+                ctx.arc(cx - 150 + k*76, cy + 76, 20, 0, 2*math.pi); ctx.fill()
+        elif kind == 'shikhara':
+            def tower():
+                ctx.move_to(cx - 96, cy + 150)
+                ctx.curve_to(cx - 86, cy - 20, cx - 44, cy - 130, cx, cy - 168)
+                ctx.curve_to(cx + 44, cy - 130, cx + 86, cy - 20, cx + 96, cy + 150)
+                ctx.close_path()
+            carve(ctx, tower, S['sand'], a, depth=5., seed=720)
+            ctx.save(); ctx.new_path(); tower(); ctx.clip()
+            for k in range(9):
+                rgba(ctx, S['soot'], .16*a); ctx.set_line_width(4)
+                ctx.move_to(cx - 110 + k*28, cy + 150); ctx.line_to(cx - 46 + k*12, cy - 150); ctx.stroke()
+            ctx.restore()
+            carve(ctx, lambda: ctx.arc(cx, cy - 180, 22, 0, 2*math.pi), S['sand'], a, depth=3., seed=721)
+            ctx.new_path(); ctx.rectangle(cx - 20, cy + 96, 40, 54)
+            ctx.set_source_rgba(0, 0, 0, .82*a); ctx.fill()
+        elif kind == 'vimana':
+            for k in range(6):
+                w_ = 120 - k*18
+                carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy + 126 - k*46, w_*2, 42),
+                      S['sand'], a, depth=3.6, tex=.24, seed=730 + k)
+                for j in range(max(1, 5 - k)):
+                    rgba(ctx, S['soot'], .2*a)
+                    ctx.rectangle(cx - w_ + 12 + j*(w_*2 - 24)/max(1, 5 - k), cy + 132 - k*46, 11, 18)
+                    ctx.fill()
+            carve(ctx, lambda: ctx.arc(cx, cy - 148, 26, math.pi, 2*math.pi), S['sand'], a, depth=3., seed=740)
+            ctx.new_path(); ctx.rectangle(cx - 21, cy + 118, 42, 50)
+            ctx.set_source_rgba(0, 0, 0, .82*a); ctx.fill()
+        elif kind == 'citypin':
+            rgba(ctx, S['ochre'], .9*a)
+            ctx.arc(cx, cy, 34, 0, 2*math.pi); ctx.fill()
+            for k, r in enumerate((70, 108)):
+                rgba(ctx, S['ochre'], (.34 - k*.1)*a); ctx.set_line_width(4)
+                ctx.new_path(); ctx.arc(cx, cy, r, 0, 2*math.pi); ctx.stroke()
+            for ang in (math.pi, math.pi/3, -math.pi/3):
+                rgba(ctx, S['terra'], .66*a); ctx.set_line_width(9)
+                ctx.move_to(cx + 300*math.cos(ang), cy + 190*math.sin(ang))
+                ctx.line_to(cx + 130*math.cos(ang), cy + 82*math.sin(ang)); ctx.stroke()
+                carve(ctx, lambda ang=ang: poly(ctx, [(cx + 120*math.cos(ang), cy + 76*math.sin(ang)),
+                                                      (cx + 168*math.cos(ang) - 16, cy + 106*math.sin(ang) - 16),
+                                                      (cx + 168*math.cos(ang) + 16, cy + 106*math.sin(ang) + 16)]),
+                      S['terra'], a, depth=2.6, seed=750)
+        elif kind == 'cutpit':
+            museum.ex_kailasa(ctx, cx, cy, 1.45, a, t)
         elif kind == 'mounds':
             for i, (dx, w_, h_) in enumerate(((-260, 240, 90), (20, 300, 130), (300, 200, 70))):
                 carve(ctx, lambda dx=dx, w_=w_, h_=h_: (ctx.save(), ctx.translate(cx + dx, cy + 70), ctx.scale(1, h_/w_*1.6),
