@@ -991,14 +991,24 @@ def Q_SHAPE(kind):
                 rgba(ctx, S['ochre'], .5*a)
                 ctx.rectangle(cx - 120 + k*96, cy + 110, 72, 12); ctx.fill()
         elif kind == 'divertedrevenue':
-            carve(ctx, lambda: ctx.rectangle(cx - 300, cy + 40, 150, 100),
-                  tuple(v*.9 for v in S['clay']), a, depth=3.6, seed=1060)
-            carve(ctx, lambda: rrect(ctx, cx + 120, cy - 130, 180, 110, 8), S['sand'], a, depth=4., seed=1061)
-            carve(ctx, lambda: rrect(ctx, cx - 60, cy - 10, 170, 110, 8), S['sand'], a, depth=4., seed=1062)
-            rgba(ctx, S['ochre'], .5*a); ctx.set_line_width(7)
-            ctx.move_to(cx - 150, cy + 70); ctx.line_to(cx - 60, cy + 40); ctx.stroke()
-            carve(ctx, lambda: poly(ctx, [(cx - 50, cy + 36), (cx - 86, cy + 20), (cx - 82, cy + 58)]),
-                  S['ochre'], a, depth=2.4, seed=1063)
+            # a village, with a grant plate sealed over it: the revenue now goes elsewhere
+            for i, dx in enumerate((-210, -90, 30)):
+                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 44, cy + 46, 88, 76),
+                      tuple(v*.9 for v in S['clay']), a, depth=3.4, seed=1060 + i)
+                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 54, cy + 46), (cx + dx, cy + 8),
+                                                    (cx + dx + 54, cy + 46)]),
+                      tuple(v*.82 for v in S['clay']), a, depth=2.8, seed=1070 + i)
+            for k in range(6):                 # the fields beyond
+                rgba(ctx, S['ochre'], .22*a)
+                ctx.rectangle(cx - 250 + k*86, cy + 134, 64, 20); ctx.fill()
+            carve(ctx, lambda: rrect(ctx, cx + 70, cy - 120, 220, 150, 8), S['sand'], a, depth=4.4, seed=1080)
+            for k in range(4):
+                rgba(ctx, S['soot'], .36*a)
+                ctx.rectangle(cx + 96, cy - 94 + k*30, 170 - (k % 2)*48, 7); ctx.fill()
+            rgba(ctx, S['ochre'], .55*a); ctx.set_line_width(7)
+            ctx.move_to(cx - 60, cy + 10); ctx.line_to(cx + 66, cy - 44); ctx.stroke()
+            carve(ctx, lambda: poly(ctx, [(cx + 76, cy - 48), (cx + 36, cy - 64), (cx + 42, cy - 24)]),
+                  S['ochre'], a, depth=2.4, seed=1090)
         elif kind == 'portcoins':
             ctx.new_path(); ctx.rectangle(cx - 300, cy + 30, 600, 110)
             ctx.set_source_rgba(.26, .44, .48, .58*a); ctx.fill()

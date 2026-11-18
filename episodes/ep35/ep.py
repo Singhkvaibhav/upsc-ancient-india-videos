@@ -61,7 +61,7 @@ CFG = dict(
                 right='A segmentary state: ritual sovereignty at the centre, real power local.'),
     tip=['UR \u00b7 SABHA', 'NAGARAM'],
     prompt='PAUSE AND NAME IT',
-    quiz=[(Q_SHAPE('potlots'), 'THE KUDAVOLAI SYSTEM'), (Q_SHAPE('towerplan'), 'THE BRIHADISVARA TEMPLE'),
+    quiz=[(Q_SHAPE('potlots'), 'THE KUDAVOLAI SYSTEM'), (Q_OBJ(museum.ex_cholatower, s=1.3), 'THE BRIHADISVARA TEMPLE'),
           (Q_SHAPE('harbour'), 'SRIVIJAYA')],
     mains='Describe Chola local self-government.',
     mains_tags=('THE THREE ASSEMBLIES', 'THE UTTARAMERUR PROCEDURE', 'ONE INSCRIPTION IS AN IDEAL'),
