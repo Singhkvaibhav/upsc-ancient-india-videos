@@ -1,0 +1,380 @@
+"""Build a whole episode from a short config.
+
+Writing bespoke scene code for 44 episodes is not realistic, so an episode is
+declared as data: which sources light, what the frieze panels show, what the
+plaque says, the inscription lines, the quiz, and the exhibit. This module turns
+that into BEATS, obeying the same seven-segment format and the same motion rules.
+
+Beat keys follow the sample: dig*, src*, frz*, plq*, ins*, quiz*, gal*. A segment
+may span any number of beats; the config does not care how the narration was split.
+"""
+import cairo, math, random
+from engine.core import W, H, cl, seg, ease, eoc, eob, lerp, rgba, rrect, wrap, font
+from engine.stone import (S, carve, incise, coursed, poly, lamp, rake, lit, dust, vignette,
+                          camera, bg_stone, bg_museum, bg_trench, unearth, brush, engraved,
+                          kinetic, ribbon, tag, corner, filmgrain, house, platform,
+                          drain_section, case, brick, pot, grain)
+from engine.monument import (crowd, haze, horizon, godrays, scalebar, bg_sky, silhouette,
+                             birds, moulding, pillar, colonnade, stupa, temple, chaitya, fort)
+from engine.anc import frame, DIG, SOURCES, PLAQUE, INSCRIPTION, QUIZ, GALLERY, SUBSCRIBE
+from engine import museum
+
+GY = 820
+
+
+# ================= generic frieze panels =================
+def P_TEXT(*lines, size=40):
+    """large engraved lines — for a panel that is an idea rather than a thing"""
+    def d(ctx, cx, gy, a, t):
+        for j, l in enumerate(lines):
+            q = ease(seg(t, .2 + j*.35, .9 + j*.35))
+            engraved(ctx, l, cx, gy - 300 + j*(size + 22), size, a*q, S['lime'])
+    return d
+
+
+def P_SITES(sites, note=True):
+    """labelled pins on a schematic physical board. Never a boundary, never an outline."""
+    def d(ctx, cx, gy, a, t):
+        for k in range(6):
+            ctx.new_path()
+            for x in range(int(cx - 780), int(cx + 780), 24):
+                y = gy - 140 + k*22 + 15*math.sin(x*.005 + k)
+                (ctx.move_to if x < cx - 760 else ctx.line_to)(x, y)
+            rgba(ctx, S['lime'], .15*a); ctx.set_line_width(3); ctx.stroke()
+        for i, (nm, dx, dy) in enumerate(sites):
+            q = ease(seg(t, .3 + i*.38, .9 + i*.38))
+            if q <= 0: continue
+            x, y = cx + dx, gy + dy + (1 - eob(q, 1.4))*-150
+            rgba(ctx, S['ochre'], a*q); ctx.set_line_width(3)
+            ctx.move_to(x, y); ctx.line_to(x, y - 54); ctx.stroke()
+            ctx.arc(x, y - 62, 11, 0, 2*math.pi); ctx.fill()
+            for r_ in range(2):
+                rp = seg(q, .5 + r_*.2, 1.)
+                if rp > 0:
+                    ctx.new_path(); rgba(ctx, S['ochre'], (1 - rp)*a); ctx.set_line_width(3)
+                    ctx.arc(x, y, 10 + 56*rp, 0, 2*math.pi); ctx.stroke()
+            engraved(ctx, nm, x, y - 88, 27, a*q, S['lime'])
+        if note:
+            engraved(ctx, 'SCHEMATIC · NOT TO SCALE · BOUNDARIES NOT SHOWN', cx, gy + 230, 19, a*.62, S['lime'], serif=False)
+    return d
+
+
+def P_ROW(items, obj=None, size=28):
+    """a row of carved cards, each a short label, appearing one at a time"""
+    def d(ctx, cx, gy, a, t):
+        n = len(items)
+        wdt = min(360, 1560/n)
+        for i, lab in enumerate(items):
+            q = ease(seg(t, .25 + i*.3, .9 + i*.3))
+            if q <= 0: continue
+            x = cx - (n*wdt + (n - 1)*24)/2 + i*(wdt + 24)
+            s_ = eob(q, 1.5)
+            ctx.save(); ctx.translate(x + wdt/2, gy - 190); ctx.scale(s_, s_); ctx.translate(-(x + wdt/2), -(gy - 190))
+            carve(ctx, lambda x=x: rrect(ctx, x, gy - 320, wdt, 260, 10), S['clay'], a*q, depth=5.)
+            if obj: obj(ctx, x + wdt/2, gy - 215, .65, a*q, t)
+            for j, l in enumerate(wrap(ctx, lab, size, wdt - 44, True)):
+                engraved(ctx, l, x + wdt/2, gy - 118 + j*32, size, a*q, S['lime'])
+            ctx.restore()
+    return d
+
+
+def P_TWO(left, right, lhead=None, rhead=None):
+    """two carved blocks of equal size, side by side"""
+    def d(ctx, cx, gy, a, t):
+        for i, (head, body) in enumerate(((lhead, left), (rhead, right))):
+            q = ease(seg(t, .3 + i*.45, 1.0 + i*.45))
+            if q <= 0: continue
+            x = cx - 820 + i*840
+            carve(ctx, lambda x=x: rrect(ctx, x, gy - 430, 800, 400, 12), S['clay'], a*q, depth=5.5)
+            if head: engraved(ctx, head, x + 400, gy - 360, 32, a*q, S['ochre'])
+            for j, l in enumerate(wrap(ctx, body, 30, 700, True)):
+                engraved(ctx, l, x + 400, gy - 300 + j*44, 30, a*q, S['lime'])
+    return d
+
+
+def P_STACK(bands):
+    """stacked strata or layers, deepest last, each labelled on the right"""
+    def d(ctx, cx, gy, a, t):
+        n = len(bands)
+        for i, (lab, col) in enumerate(bands):
+            q = ease(seg(t, .25 + i*.35, .95 + i*.35))
+            if q <= 0: continue
+            y = gy - 440 + i*(400/n)
+            carve(ctx, lambda y=y: ctx.rectangle(cx - 620, y, 1000, 400/n - 8),
+                  S[col] if isinstance(col, str) else col, a*q, depth=4.5, seed=30 + i)
+            engraved(ctx, lab, cx + 420, y + (400/n)/2 + 8, 28, a*q, S['ochre'], 'l')
+    return d
+
+
+def P_VILLAGE(n=7, cit=False):
+    def d(ctx, cx, gy, a, t):
+        if cit:
+            platform(ctx, cx - 760, gy, 420, 180, a)
+            for i, (hh, w_) in enumerate(((120, 90), (152, 78), (104, 84))):
+                house(ctx, cx - 720 + i*124, gy - 180, w_, hh, a, seed=6 + i)
+        for i in range(n):
+            q = ease(seg(t, .2 + i*.12, .8 + i*.12))
+            x = cx - (n*134)/2 + i*134 + (300 if cit else 0)
+            house(ctx, x, gy, 110, 86 + (i % 3)*22, a*q, seed=20 + i)
+        crowd(ctx, gy + 6, [cx - 560, cx - 516, cx + 540], .7*a, 1.0, t=t)
+    return d
+
+
+def P_OBJ(fn, s=2.6, label=None):
+    """one object, large and lit"""
+    def d(ctx, cx, gy, a, t):
+        q = ease(seg(t, .2, 1.0))
+        lamp(ctx, cx, gy - 260, 520, .26*a*q)
+        ctx.save(); ctx.translate(cx, gy - 240); ctx.scale(s, s); ctx.translate(-cx, -(gy - 240))
+        fn(ctx, cx, gy - 240, 1., a*q, t)
+        ctx.restore()
+        if label: engraved(ctx, label, cx, gy + 40, 30, a*q, S['ochre'])
+    return d
+
+
+def P_MON(kind, s=1.0, sky='dawn', label=None):
+    """a monument hero shot inside the frieze"""
+    def d(ctx, cx, gy, a, t):
+        fn = {'stupa': stupa, 'temple': temple, 'chaitya': chaitya}[kind]
+        fn(ctx, cx, gy + 120, s=s, a=a, t=t)
+        if label: engraved(ctx, label, cx, 300, 32, a, S['ochre'])
+    return d
+
+
+# ================= generic quiz card art =================
+def Q_OBJ(fn, s=1.6):
+    def d(ctx, cx, cy, a, t):
+        ctx.save(); ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy)
+        fn(ctx, cx, cy, 1., a, t); ctx.restore()
+    return d
+
+
+def Q_SHAPE(kind):
+    def d(ctx, cx, cy, a, t):
+        if kind == 'tank':
+            carve(ctx, lambda: ctx.rectangle(cx - 250, cy - 90, 500, 150), S['sand'], a, depth=5.)
+            for k in range(3):
+                carve(ctx, lambda k=k: ctx.rectangle(cx - 215 + k*32, cy - 66 + k*34, 38, 36), S['lime'], a, depth=2.6, seed=10 + k)
+                carve(ctx, lambda k=k: ctx.rectangle(cx + 177 - k*32, cy - 66 + k*34, 38, 36), S['lime'], a, depth=2.6, seed=20 + k)
+            ctx.new_path(); ctx.rectangle(cx - 120, cy + 10, 240, 50)
+            ctx.set_source_rgba(.26, .44, .48, .75*a); ctx.fill()
+        elif kind == 'basin':
+            carve(ctx, lambda: ctx.rectangle(cx - 240, cy - 80, 420, 170), S['sand'], a, depth=5.)
+            ctx.new_path(); ctx.rectangle(cx - 200, cy - 42, 340, 96)
+            ctx.set_source_rgba(.26, .44, .48, .72*a); ctx.fill()
+            carve(ctx, lambda: ctx.rectangle(cx + 140, cy - 18, 180, 36), S['sand'], a, depth=4.)
+        elif kind == 'threecity':
+            for i, (dx, w_, h_) in enumerate(((-250, 150, 120), (-70, 170, 90), (130, 190, 140))):
+                carve(ctx, lambda dx=dx, w_=w_, h_=h_: ctx.rectangle(cx + dx, cy + 40 - h_, w_, h_),
+                      S['sand'], a, depth=4.5, seed=30 + i)
+                coursed(ctx, cx + dx, cy + 40 - h_, w_, h_, a*.8, seed=40 + i)
+        elif kind == 'edict':
+            carve(ctx, lambda: (ctx.move_to(cx - 150, cy + 150), ctx.line_to(cx - 150, cy - 60),
+                                ctx.curve_to(cx - 150, cy - 170, cx + 150, cy - 170, cx + 150, cy - 60),
+                                ctx.line_to(cx + 150, cy + 150), ctx.close_path()), S['clay'], a, depth=6.)
+            for k in range(6):
+                rgba(ctx, S['soot'], .5*a); ctx.rectangle(cx - 100, cy - 80 + k*38, 200, 9); ctx.fill()
+        elif kind == 'coin':
+            carve(ctx, lambda: ctx.arc(cx, cy, 130, 0, 2*math.pi), S['lime'], a, depth=6.)
+            rr = random.Random(5)
+            for k in range(6):
+                rgba(ctx, S['soot'], .5*a)
+                ctx.arc(cx + rr.uniform(-70, 70), cy + rr.uniform(-70, 70), 17, 0, 2*math.pi); ctx.fill()
+        elif kind == 'traveller':
+            crowd(ctx, cy + 120, [cx], .95*a, 3.4, t=t)
+            carve(ctx, lambda: rrect(ctx, cx + 90, cy - 120, 16, 250, 8), S['clay'], a, depth=3.)
+        elif kind == 'handaxe':
+            museum.ex_handaxe(ctx, cx, cy, 1.9, a, t)
+        elif kind == 'microlith':
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy + 10, 500, 26, 12), S['clay'], a, depth=4.)
+            for k in range(7):
+                carve(ctx, lambda k=k: poly(ctx, [(cx - 220 + k*70, cy + 10), (cx - 196 + k*70, cy - 56),
+                                                  (cx - 172 + k*70, cy + 10)]), S['lime'], a, depth=3., seed=50 + k)
+        elif kind == 'polished':
+            carve(ctx, lambda: poly(ctx, [(cx - 120, cy + 60), (cx - 60, cy - 90), (cx + 40, cy - 70),
+                                          (cx + 20, cy + 76)]), tuple(v*1.2 for v in S['basalt']), a, depth=6.)
+            for k in range(5):
+                rgba(ctx, S['sand'], .55*a); ctx.arc(cx + 150 + (k % 3)*44, cy + 30 + (k//3)*40, 13, 0, 2*math.pi); ctx.fill()
+        elif kind == 'copperstone':
+            carve(ctx, lambda: poly(ctx, [(cx - 250, cy - 20), (cx - 110, cy - 60), (cx - 90, cy + 20),
+                                          (cx - 230, cy + 50)]), tuple(v*1.4 for v in S['terra']), a, depth=5.)
+            carve(ctx, lambda: poly(ctx, [(cx + 90, cy + 40), (cx + 150, cy - 60), (cx + 230, cy - 10),
+                                          (cx + 190, cy + 60)]), tuple(v*1.2 for v in S['basalt']), a, depth=5.)
+        elif kind == 'pot':
+            pot(ctx, cx, cy + 90, 2.1, a)
+        elif kind == 'channel':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy + 20, 600, 60), S['clay'], a, depth=5.)
+            ctx.new_path(); ctx.rectangle(cx - 270, cy + 34, 540, 30)
+            ctx.set_source_rgba(.26, .44, .48, .72*a); ctx.fill()
+            carve(ctx, lambda: poly(ctx, [(cx - 320, cy + 20), (cx + 320, cy + 20), (cx + 260, cy - 60), (cx - 260, cy - 60)]),
+                  S['sand'], a, depth=4.)
+        elif kind == 'field':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy - 100, 600, 220), S['clay'], a, depth=4.5)
+            for k in range(7):
+                rgba(ctx, S['soot'], .35*a); ctx.rectangle(cx - 290 + k*84, cy - 96, 10, 212); ctx.fill()
+            for k in range(4):
+                rgba(ctx, S['soot'], .35*a); ctx.rectangle(cx - 296, cy - 90 + k*56, 592, 10); ctx.fill()
+        elif kind == 'weight':
+            carve(ctx, lambda: ctx.rectangle(cx - 70, cy - 70, 140, 140), S['lime'], a, depth=6.)
+            carve(ctx, lambda: ctx.rectangle(cx + 120, cy - 20, 90, 90), S['lime'], a, depth=5.)
+            carve(ctx, lambda: ctx.rectangle(cx - 220, cy - 110, 110, 180), S['lime'], a, depth=5.)
+        elif kind == 'bead':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 30, 460, 60, 30), tuple(v*1.5 for v in S['terra']), a, depth=5.)
+            ctx.new_path(); ctx.rectangle(cx - 230, cy - 7, 460, 14)
+            ctx.set_source_rgba(0, 0, 0, .7*a); ctx.fill()
+        elif kind == 'seal':
+            museum.ex_seal(ctx, cx, cy, 1.7, a, t)
+        elif kind == 'mounds':
+            for i, (dx, w_, h_) in enumerate(((-260, 240, 90), (20, 300, 130), (300, 200, 70))):
+                carve(ctx, lambda dx=dx, w_=w_, h_=h_: (ctx.save(), ctx.translate(cx + dx, cy + 70), ctx.scale(1, h_/w_*1.6),
+                                                        ctx.arc(0, 0, w_/2, math.pi, 2*math.pi), ctx.restore(), ctx.close_path()),
+                      S['clay'], a, depth=5., seed=60 + i)
+    return d
+
+
+# ================= the builder =================
+def build(cfg, EN):
+    """turn a config dict into BEATS; keys are grouped by their prefix"""
+    keys = [k for k, _ in EN]
+    def group(pfx): return [k for k in keys if k.startswith(pfx)]
+    PERIOD = cfg['period']
+    EPN = cfg['ep']
+    SC = {}
+
+    # ---- dig
+    digk = group('dig')
+    def mk_dig(i):
+        def f(ctx, t, D):
+            def body(ctx, t, D, a):
+                DIG(ctx, t, D, a, cfg['dig'],
+                    question=cfg.get('question') if i == len(digk) - 1 else None,
+                    tags=cfg.get('tags', ()) if i == 0 else (),
+                    sweep=(0.4, 4.2) if i == 0 else (-9, -8),
+                    t_q=D*.45)
+            frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_trench(c, tt))
+        f.bg = 'trench'; return f
+    for i, k in enumerate(digk): SC[k] = mk_dig(i)
+
+    # ---- sources
+    for i, k in enumerate(group('src')):
+        def mk_src(i=i):
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    SOURCES(ctx, t, D, a, on=cfg.get('sources', ('trowel',)), note=cfg.get('src_note'))
+                frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.5, lampy=340))
+            f.bg = 'stone'; return f
+        SC[k] = mk_src()
+
+    # ---- frieze
+    frzk = group('frz'); panels = cfg['panels']
+    assert len(panels) >= 1
+    for i, k in enumerate(frzk):
+        pi = min(int(i*len(panels)/max(len(frzk), 1)), len(panels) - 1)
+        nxt = min(pi + 1, len(panels) - 1)
+        def mk_frz(pi=pi, nxt=nxt, last=(i == len(frzk) - 1)):
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    prog = pi + (0 if pi == nxt else ease(cl((t - (D - .8))/.8)))*(nxt - pi)
+                    ox = -prog*W
+                    ctx.save(); ctx.translate(ox*.32, 0)
+                    rgba(ctx, S['soot'], .5*a); ctx.rectangle(-W*12, 150, W*26, H); ctx.fill()
+                    ctx.restore()
+                    ctx.save(); ctx.translate(ox, 0)
+                    camera(ctx, t, D, (1.0, 1.03), cx=prog*W + W/2, cy=560, depth=.55)
+                    for yy in (208, GY + 168):
+                        for kk in range(int(len(panels)*W//58) + 6):
+                            x = -60 + kk*58
+                            carve(ctx, lambda x=x, yy=yy: ctx.arc(x, yy, 12, 0, 2*math.pi), S['clay'], .55*a, depth=2.6, tex=.2)
+                    for j, ent in enumerate(panels):
+                        draw, label = (ent if isinstance(ent, tuple) else (ent, None))
+                        d_ = abs(j - prog)
+                        if d_ >= .92: continue
+                        near = max(0., 1 - d_*1.9)
+                        if near <= 0: continue
+                        draw(ctx, j*W + W/2, GY, a*near, t)
+                        if label: engraved(ctx, label, j*W + W/2, 300, 30, a*near*.9, S['ochre'])
+                    ctx.restore()
+                frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.52, lampy=300, beam=False))
+            f.bg = 'stone'; return f
+        SC[k] = mk_frz()
+
+    # ---- plaque
+    pq = cfg['plaque']
+    for i, k in enumerate(group('plq')):
+        def mk_plq(i=i):
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    PLAQUE(ctx, t, D, a, kind=pq['kind'], title=pq.get('title'),
+                           left=pq['left'], right=pq['right'], t0=.3 if i == 0 else -3.)
+                frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.5, lampy=320))
+            f.bg = 'stone'; return f
+        SC[k] = mk_plq()
+
+    # ---- inscription
+    for k in group('ins'):
+        def mk_ins():
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    lines = cfg['tip']
+                    INSCRIPTION(ctx, t, D, a, lines, t0=1.4, per=max(2.4, (D - 5.5)/max(len(lines), 1)))
+                frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.5, lampy=360, beam=False))
+            f.bg = 'stone'; return f
+        SC[k] = mk_ins()
+
+    # ---- quiz
+    qk = group('quiz'); cards = cfg['quiz']; mains = cfg.get('mains')
+    nq = len(cards)
+    for i, k in enumerate(qk):
+        is_mains = (i >= nq)
+        ci = min(i, nq - 1)
+        def mk_q(ci=ci, is_mains=is_mains):
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    if not is_mains:
+                        QUIZ(ctx, t, D, a, [cards[ci]], mains=None, t0=.35, per=D - .9,
+                             prompt=cfg.get('prompt', 'PAUSE AND NAME IT'))
+                    else:
+                        q = ease(seg(t, .2, .9))
+                        rgba(ctx, (0, 0, 0), .55*a*q); ctx.rectangle(0, 150, W, H - 150); ctx.fill()
+                        engraved(ctx, 'IN MAINS', W/2, 330, 34, a*q, S['ochre'], serif=False)
+                        for j, l in enumerate(wrap(ctx, mains or '', 42, 1500, True)):
+                            engraved(ctx, l, W/2, 430 + j*58, 42, a*q, S['lime'])
+                        for j, l in enumerate(cfg.get('mains_tags', ())):
+                            qq = ease(seg(t, 1.2 + j*.5, 1.7 + j*.5))
+                            if qq > 0: tag(ctx, l, 420 + j*430, 740, a*qq, align='c', size=26)
+                frame(ctx, t, D, EPN, PERIOD, body, lambda c, tt: bg_stone(c, tt, lampx=W*.5, lampy=330, beam=False))
+            f.bg = 'stone'; return f
+        SC[k] = mk_q()
+
+    # ---- gallery
+    galk = group('gal')
+    for i, k in enumerate(galk):
+        last = (i == len(galk) - 1)
+        def mk_gal(i=i, last=last):
+            def f(ctx, t, D):
+                def body(ctx, t, D, a):
+                    GALLERY(ctx, t, D, a,
+                            lambda c, tt, aa, place: museum.hall(c, tt, aa, place, upto=EPN,
+                                                                 cols=min(6, max(5, EPN))),
+                            facts=cfg.get('facts', ()) if i == 0 else (),
+                            nxt=cfg.get('next') if last else None, t0=.4)
+                    if last: SUBSCRIBE(ctx, t, D, a, D - 4.4)
+                frame(ctx, t, D, EPN, False, body, lambda c, tt: bg_museum(c, tt))
+            f.bg = 'museum'; return f
+        SC[k] = mk_gal()
+
+    missing = [k for k in keys if k not in SC]
+    assert not missing, f'no scene for beats: {missing}'
+    return [(k, n, SC[k]) for k, n in EN]
+
+
+def fx_for(EN):
+    keys = [k for k, _ in EN]
+    out = []
+    dig = [k for k in keys if k.startswith('dig')]
+    ins = [k for k in keys if k.startswith('ins')]
+    gal = [k for k in keys if k.startswith('gal')]
+    if dig: out += [('sweep', dig[0], .3, .5), ('thud', dig[0], 2.2, .4)]
+    if ins: out += [('chisel', ins[0], 1.2, .6), ('chisel', ins[0], 4.2, .6)]
+    if gal: out += [('thud', gal[0], 1.1, .5)]
+    return out
