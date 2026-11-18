@@ -59,7 +59,7 @@ CFG = dict(
     tip=['KANISHKA \u00b7 FOURTH COUNCIL', 'SILK ROAD'],
     prompt='PAUSE AND NAME IT',
     quiz=[(Q_SHAPE('mountaincapital'), 'PURUSHAPURA'), (Q_SHAPE('councilhall'), 'THE FOURTH'),
-          (Q_SHAPE('era'), 'THE SILK ROAD')],
+          (Q_SHAPE('silkroad'), 'THE SILK ROAD')],
     mains='Why did Buddhism spread into Central Asia and China?',
     mains_tags=('AN EMPIRE ON THE ROUTES', 'A PATRON RULER', 'MONASTERIES AND MERCHANTS'),
     facts=('Kanishka, probably from 78 CE', 'The fourth Buddhist council', 'Gold coinage and the Silk Road'),

@@ -588,33 +588,19 @@ def Q_SHAPE(kind):
             engraved(ctx, 'SON OF', cx, cy - 16, 30, a*.9, S['soot'], 'c', serif=False)
             engraved(ctx, 'GAUTAMI', cx, cy + 34, 44, a*.95, S['soot'], 'c')
         elif kind == 'aniconic':
-            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 160, 500, 320, 10), S['sand'], a, depth=5.)
-            carve(ctx, lambda: ctx.rectangle(cx - 11, cy - 110, 22, 70), tuple(v*.84 for v in S['sand']),
-                  a, depth=3., seed=340)
-            for k in range(11):
-                ang = math.pi + k*math.pi/10
-                rx, ry = cx + 92*math.cos(ang), cy - 114 + 44*math.sin(ang)
-                carve(ctx, lambda rx=rx, ry=ry: poly(ctx, [(rx, ry + 16), (rx - 13, ry - 3),
-                                                           (rx, ry - 20), (rx + 13, ry - 3)]),
-                      tuple(v*.9 for v in S['sand']), a, depth=2., tex=.2, seed=341 + k)
-            carve(ctx, lambda: ctx.rectangle(cx - 52, cy - 36, 104, 18), tuple(v*.8 for v in S['sand']),
-                  a, depth=3., seed=352)
-            for dx in (-40, 40):
-                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 8, cy - 18, 16, 28),
-                      tuple(v*.8 for v in S['sand']), a, depth=2.4, seed=353)
-            for dx in (-17, 17):
-                carve(ctx, lambda dx=dx: rrect(ctx, cx + dx - 10, cy + 28, 20, 30, 9),
-                      tuple(v*.86 for v in S['sand']), a, depth=2., tex=.24, seed=354)
+            carve(ctx, lambda: rrect(ctx, cx - 250, cy - 170, 500, 340, 10), S['sand'], a, depth=5.)
+            museum.ex_bodhi(ctx, cx, cy + 36, 1.18, a, t)
         elif kind == 'junagadh':
-            carve(ctx, lambda: poly(ctx, [(cx - 300, cy + 130), (cx - 320, cy - 40), (cx - 200, cy - 130),
-                                          (cx - 40, cy - 134), (cx + 20, cy - 30), (cx - 10, cy + 130)]),
+            carve(ctx, lambda: poly(ctx, [(cx - 230, cy + 110), (cx - 246, cy - 30), (cx - 150, cy - 108),
+                                          (cx - 30, cy - 112), (cx + 18, cy - 24), (cx - 6, cy + 110)]),
                   tuple(v*1.12 for v in S['basalt']), a, depth=6.)
-            for k in range(6):
-                rgba(ctx, S['lime'], .32*a); ctx.rectangle(cx - 270, cy - 80 + k*30, 230 - (k % 2)*40, 7); ctx.fill()
-            ctx.new_path(); ctx.save(); ctx.translate(cx + 220, cy + 40); ctx.scale(1.5, 1.)
-            ctx.arc(0, 0, 110, 0, 2*math.pi); ctx.restore()
+            for k in range(5):
+                rgba(ctx, S['lime'], .32*a)
+                ctx.rectangle(cx - 206, cy - 66 + k*30, 180 - (k % 2)*36, 7); ctx.fill()
+            ctx.new_path(); ctx.save(); ctx.translate(cx + 140, cy + 20); ctx.scale(1.35, 1.)
+            ctx.arc(0, 0, 72, 0, 2*math.pi); ctx.restore()
             ctx.set_source_rgba(.26, .44, .48, .64*a); ctx.fill()
-            carve(ctx, lambda: ctx.rectangle(cx + 380, cy - 70, 42, 220), S['sand'], a, depth=4.5)
+            carve(ctx, lambda: ctx.rectangle(cx + 232, cy - 56, 30, 152), S['sand'], a, depth=4.5)
         elif kind == 'era':
             carve(ctx, lambda: ctx.rectangle(cx - 400, cy - 8, 800, 16), S['sand'], a, depth=4.)
             for k in range(7):
@@ -636,14 +622,29 @@ def Q_SHAPE(kind):
             ctx.move_to(cx - 420, cy + 120); ctx.curve_to(cx - 150, cy + 60, cx + 150, cy + 190, cx + 430, cy + 110)
             ctx.stroke()
         elif kind == 'councilhall':
-            for i, (dx, h_) in enumerate(((-330, 150), (330, 170))):
-                carve(ctx, lambda dx=dx, h_=h_: poly(ctx, [(cx + dx - 150, cy + 160), (cx + dx, cy + 160 - h_),
-                                                           (cx + dx + 150, cy + 160)]),
-                      tuple(v*1.05 for v in S['basalt']), a, depth=4., seed=380 + i)
-            carve(ctx, lambda: rrect(ctx, cx - 210, cy - 60, 420, 220, 10), S['sand'], a, depth=5.)
+            for i, (dx, w_, h_) in enumerate(((-210, 230, 150), (215, 250, 172))):
+                carve(ctx, lambda dx=dx, w_=w_, h_=h_: poly(ctx, [(cx + dx - w_/2, cy + 150),
+                                                                  (cx + dx, cy + 150 - h_),
+                                                                  (cx + dx + w_/2, cy + 150)]),
+                      tuple(v*1.06 for v in S['clay']), a, depth=4., seed=380 + i)
+            carve(ctx, lambda: rrect(ctx, cx - 180, cy - 50, 360, 200, 10), S['sand'], a, depth=5.)
             for k in range(8):
-                carve(ctx, lambda k=k: ctx.rectangle(cx - 180 + (k % 4)*96, cy - 20 + (k//4)*92, 64, 56),
+                carve(ctx, lambda k=k: ctx.rectangle(cx - 152 + (k % 4)*82, cy - 14 + (k//4)*80, 56, 50),
                       tuple(v*.88 for v in S['sand']), a, depth=2.6, seed=390 + k)
+        elif kind == 'silkroad':
+            # a route winding between ranges, with bales moving along it
+            for i, (dx, w_, h_) in enumerate(((-250, 240, 120), (40, 200, 90), (270, 230, 130))):
+                carve(ctx, lambda dx=dx, w_=w_, h_=h_: poly(ctx, [(cx + dx - w_/2, cy - 40),
+                                                                  (cx + dx, cy - 40 - h_),
+                                                                  (cx + dx + w_/2, cy - 40)]),
+                      tuple(v*1.0 for v in S['clay']), a, depth=4., seed=480 + i)
+            rgba(ctx, S['ochre'], .5*a); ctx.set_line_width(9)
+            ctx.new_path(); ctx.move_to(cx - 300, cy + 130)
+            ctx.curve_to(cx - 100, cy + 40, cx + 100, cy + 170, cx + 300, cy + 70)
+            ctx.stroke()
+            for i, (bx, by) in enumerate(((-190, 92), (0, 108), (190, 92))):
+                carve(ctx, lambda bx=bx, by=by: rrect(ctx, cx + bx - 26, cy + by - 22, 52, 40, 7),
+                      S['sand'], a, depth=3., seed=490 + i)
         elif kind == 'bow':
             rgba(ctx, S['ochre'], .9*a); ctx.set_line_width(16)
             ctx.new_path(); ctx.arc(cx + 120, cy, 170, math.pi*.62, math.pi*1.38); ctx.stroke()
@@ -666,18 +667,18 @@ def Q_SHAPE(kind):
                 carve(ctx, lambda k=k: ctx.arc(cx - 240 + (k % 2)*58, cy - 30 + (k//2)*60, 24, 0, 2*math.pi),
                       tuple(v*1.04 for v in S['lime']), a, depth=3., tex=.15, seed=410 + k)
         elif kind == 'harbour':
-            ctx.new_path(); ctx.rectangle(cx - 420, cy + 40, 840, 130)
-            ctx.set_source_rgba(.26, .44, .48, .6*a); ctx.fill()
-            for i, dx in enumerate((-230, 60)):
-                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 110, cy + 40), (cx + dx + 110, cy + 40),
-                                                    (cx + dx + 70, cy + 96), (cx + dx - 70, cy + 96)]),
-                      tuple(v*.9 for v in S['clay']), a, depth=4., seed=420 + i)
-                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 5, cy - 110, 10, 150),
-                      tuple(v*.8 for v in S['clay']), a, depth=3., seed=430 + i)
-            for i, dx in enumerate((280, 360)):
-                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 26, cy - 10), (cx + dx + 26, cy - 10),
-                                                    (cx + dx + 14, cy + 36), (cx + dx - 14, cy + 36)]),
-                      tuple(v*1.25 for v in S['terra']), a, depth=3.2, seed=440 + i)
+            ctx.new_path(); ctx.rectangle(cx - 240, cy + 40, 480, 110)
+            ctx.set_source_rgba(.26, .44, .48, .58*a); ctx.fill()
+            for i, dx in enumerate((-120, 60)):
+                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 86, cy + 44), (cx + dx + 86, cy + 44),
+                                                    (cx + dx + 54, cy + 94), (cx + dx - 54, cy + 94)]),
+                      tuple(v*.92 for v in S['clay']), a, depth=4., seed=420 + i)
+                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 5, cy - 86, 10, 130),
+                      tuple(v*.82 for v in S['clay']), a, depth=3., seed=430 + i)
+            for i, dx in enumerate((168, 218)):
+                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 20, cy - 16), (cx + dx + 20, cy - 16),
+                                                    (cx + dx + 11, cy + 34), (cx + dx - 11, cy + 34)]),
+                      tuple(v*1.18 for v in S['terra']), a, depth=3.2, seed=440 + i)
         elif kind == 'grammar':
             carve(ctx, lambda: poly(ctx, [(cx - 180, cy + 150), (cx - 40, cy + 40), (cx + 40, cy + 40),
                                           (cx + 180, cy + 150)]), tuple(v*.8 for v in S['clay']), a, depth=4.5)

@@ -223,14 +223,28 @@ def ex_wallsection(ctx, cx, cy, s=1., a=1., t=0.):
 def ex_bodhi(ctx, cx, cy, s=1., a=1., t=0.):
     """the Bodhi tree above an empty throne, with footprints before it: the
     aniconic way early Indian art showed the Buddha. No figure is drawn."""
-    carve(ctx, lambda: ctx.rectangle(cx - 13*s, cy - 70*s, 26*s, 96*s), tuple(v*.8 for v in S['clay']), a, depth=3.4*s)
-    rr = random.Random(13)
-    for k in range(16):
-        ang = math.pi + k*math.pi/15
-        rx, ry = cx + 104*s*math.cos(ang), cy - 74*s + 52*s*math.sin(ang)
-        carve(ctx, lambda rx=rx, ry=ry: poly(ctx, [(rx, ry + 20*s), (rx - 17*s, ry - 4*s), (rx, ry - 26*s),
-                                                   (rx + 17*s, ry - 4*s)]),
-              tuple(v*.92 for v in S['clay']), a*.95, depth=2.2*s, tex=.22, seed=80 + k)
+    carve(ctx, lambda: ctx.rectangle(cx - 13*s, cy - 72*s, 26*s, 98*s),
+          tuple(v*.78 for v in S['clay']), a, depth=3.4*s)
+    # the canopy: one solid heart-leaved mass, notched at the rim
+    def canopy():
+        ctx.move_to(cx - 118*s, cy - 78*s)
+        ctx.curve_to(cx - 132*s, cy - 136*s, cx - 62*s, cy - 178*s, cx, cy - 172*s)
+        ctx.curve_to(cx + 62*s, cy - 178*s, cx + 132*s, cy - 136*s, cx + 118*s, cy - 78*s)
+        ctx.curve_to(cx + 70*s, cy - 50*s, cx - 70*s, cy - 50*s, cx - 118*s, cy - 78*s)
+        ctx.close_path()
+    carve(ctx, canopy, tuple(v*.92 for v in S['clay']), a, depth=4.2*s, tex=.24, seed=80)
+    ctx.save(); ctx.new_path(); canopy(); ctx.clip()
+    for k in range(9):                      # a few leaf veins, so it reads as foliage
+        lx = cx - 100*s + k*25*s
+        rgba(ctx, S['soot'], .18*a); ctx.set_line_width(3*s)
+        ctx.move_to(lx, cy - 58*s); ctx.line_to(lx + 12*s, cy - 148*s); ctx.stroke()
+    ctx.restore()
+    for k in range(7):                      # heart-shaped leaves along the rim
+        lx = cx - 96*s + k*32*s
+        ly = cy - 62*s - 14*s*math.sin(k*.9)
+        carve(ctx, lambda lx=lx, ly=ly: poly(ctx, [(lx, ly + 24*s), (lx - 16*s, ly),
+                                                   (lx, ly - 18*s), (lx + 16*s, ly)]),
+              tuple(v*.86 for v in S['clay']), a*.95, depth=2.*s, tex=.2, seed=90 + k)
     # the empty seat
     carve(ctx, lambda: ctx.rectangle(cx - 56*s, cy + 22*s, 112*s, 20*s), S['sand'], a, depth=4*s, seed=91)
     for dx in (-44, 44):
