@@ -28,20 +28,20 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 3: The age of the Buddha (Ep 12–17)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 12 | Mahajanapadas ★ | The sixteen states, second urbanisation | A punch-marked coin | to script |
-| 13 | The rise of Magadha | Haryanka, Shishunaga, Nanda dynasties | A section of fortified city wall | to script |
-| 14 | Buddhism: life and teachings ★ | Four Noble Truths, Eightfold Path | A relief of the Bodhi tree above an empty throne | to script |
-| 15 | Buddhist councils, schools and spread ★ | Four councils, Hinayana and Mahayana, sacred sites | A stupa model | to script |
-| 16 | Jainism ★ | Mahavira, the three jewels, councils, Digambara and Svetambara | A carved votive tablet (ayagapata) | to script |
-| 17 | Other sects and foreign invasions | Ajivikas, Charvakas; Persian rule, Alexander | A Greek-style silver coin | to script |
+| 12 | Mahajanapadas ★ | The sixteen states, second urbanisation | A punch-marked coin | scripted |
+| 13 | The rise of Magadha | Haryanka, Shishunaga, Nanda dynasties | A section of fortified city wall | scripted |
+| 14 | Buddhism: life and teachings ★ | Four Noble Truths, Eightfold Path | A relief of the Bodhi tree above an empty throne | scripted |
+| 15 | Buddhist councils, schools and spread ★ | Four councils, Hinayana and Mahayana, sacred sites | A stupa model | scripted |
+| 16 | Jainism ★ | Mahavira, the three jewels, councils, Digambara and Svetambara | A carved votive tablet (ayagapata) | scripted |
+| 17 | Other sects and foreign invasions | Ajivikas, Charvakas; Persian rule, Alexander | A Greek-style silver coin | scripted |
 
 ## Unit 4: The Mauryas (Ep 18–21)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 18 | Chandragupta Maurya and the Arthashastra | Founding the empire, Kautilya | An Arthashastra manuscript | to script |
-| 19 | Ashoka and dhamma ★ | Kalinga, conversion, dhamma | The Rampurva bull capital | to script |
-| 20 | Ashoka's edicts ★ | Rock and pillar edicts, scripts, sites | An inscribed rock edict in Brahmi | to script |
-| 21 | Mauryan administration and decline | Megasthenes' Indica, economy, decline | A polished stone pillar section | to script |
+| 18 | Chandragupta Maurya and the Arthashastra | Founding the empire, Kautilya | An Arthashastra manuscript | scripted |
+| 19 | Ashoka and dhamma ★ | Kalinga, conversion, dhamma | The Rampurva bull capital | scripted |
+| 20 | Ashoka's edicts ★ | Rock and pillar edicts, scripts, sites | An inscribed rock edict in Brahmi | scripted |
+| 21 | Mauryan administration and decline | Megasthenes' Indica, economy, decline | A polished stone pillar section | scripted |
 
 ## Unit 5: After the Mauryas (Ep 22–27)
 | # | Episode | Covers | Exhibit | Status |
