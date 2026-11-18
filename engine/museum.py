@@ -124,3 +124,63 @@ def walk(ctx, t, a=1., upto=44, speed=130.):
         ent = EXHIBITS.get(i + 1)
         if ent: ent[0](ctx, x + 150, 380 + 360*.62, .78, a*.92, t)
     ctx.restore()
+
+
+# ---------- Unit 2 exhibits ----------
+def ex_leaf(ctx, cx, cy, s=1., a=1., t=0.):
+    """a bundle of palm-leaf sheets between two boards"""
+    carve(ctx, lambda: rrect(ctx, cx - 110*s, cy + 36*s, 220*s, 20*s, 5*s), tuple(v*.8 for v in S['clay']), a, depth=3.4*s)
+    for k in range(5):
+        carve(ctx, lambda k=k: rrect(ctx, cx - 104*s + (k % 2)*4*s, cy + 22*s - k*14*s, 208*s, 13*s, 5*s),
+              S['sand'], a, depth=2.4*s, tex=.25, seed=30 + k)
+    carve(ctx, lambda: rrect(ctx, cx - 110*s, cy - 64*s, 220*s, 20*s, 5*s), tuple(v*.8 for v in S['clay']), a, depth=3.4*s)
+    rgba(ctx, S['soot'], .5*a); ctx.arc(cx, cy - 14*s, 5*s, 0, 2*math.pi); ctx.fill()
+
+
+def ex_pgw(ctx, cx, cy, s=1., a=1., t=0.):
+    """a thin grey bowl with simple painted bands"""
+    def body():
+        ctx.move_to(cx - 86*s, cy - 46*s)
+        ctx.curve_to(cx - 80*s, cy + 36*s, cx + 80*s, cy + 36*s, cx + 86*s, cy - 46*s)
+        ctx.close_path()
+    carve(ctx, body, tuple(v*.62 for v in S['lime']), a, depth=4*s)
+    ctx.save(); ctx.new_path(); body(); ctx.clip()
+    for k in range(3):
+        rgba(ctx, S['soot'], .34*a); ctx.rectangle(cx - 100*s, cy - 34*s + k*16*s, 200*s, 4*s); ctx.fill()
+    ctx.restore()
+
+
+def ex_altar(ctx, cx, cy, s=1., a=1., t=0.):
+    """a layered brick fire altar. No image, no figure — fire and geometry only."""
+    for i in range(3):
+        w_ = 150*s - i*26*s
+        carve(ctx, lambda i=i, w_=w_: ctx.rectangle(cx - w_/2, cy + 30*s - i*26*s, w_, 24*s),
+              S['terra'], a, depth=3.4*s, seed=40 + i)
+    fl = .8 + .2*math.sin(t*3.1)
+    lamp(ctx, cx, cy - 56*s, 120*s*fl, .5*a, core=.7)
+    for k in range(3):
+        h = (40 + k*14)*s*fl
+        rgba(ctx, S['ochre'], .5*a)
+        ctx.move_to(cx - 16*s + k*16*s, cy - 44*s)
+        ctx.curve_to(cx - 26*s + k*16*s, cy - 44*s - h*.6, cx - 6*s + k*16*s, cy - 44*s - h*.8, cx - 12*s + k*16*s, cy - 44*s - h)
+        ctx.curve_to(cx - 2*s + k*16*s, cy - 44*s - h*.7, cx + 6*s + k*16*s, cy - 44*s - h*.4, cx - 16*s + k*16*s, cy - 44*s)
+        ctx.fill()
+
+
+def ex_megalith(ctx, cx, cy, s=1., a=1., t=0.):
+    """a dolmen: upright slabs under a capstone"""
+    for dx in (-78, 78):
+        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 20*s, cy - 40*s, 40*s, 110*s),
+              tuple(v*1.15 for v in S['basalt']), a, depth=4.4*s, seed=50)
+    carve(ctx, lambda: poly(ctx, [(cx - 128*s, cy - 42*s), (cx + 128*s, cy - 56*s),
+                                  (cx + 120*s, cy - 86*s), (cx - 120*s, cy - 72*s)]),
+          tuple(v*1.25 for v in S['basalt']), a, depth=5.2*s)
+
+
+EXHIBITS.update({
+    7: (ex_leaf, 'EP 7 · RIGVEDA LEAF'),
+    8: (ex_pgw, 'EP 8 · PAINTED GREY WARE'),
+    9: (ex_leaf, 'EP 9 · PALM-LEAF TEXTS'),
+    10: (ex_altar, 'EP 10 · FIRE ALTAR'),
+    11: (ex_megalith, 'EP 11 · BURIAL STONE'),
+})

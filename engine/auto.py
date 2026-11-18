@@ -224,6 +224,73 @@ def Q_SHAPE(kind):
             ctx.set_source_rgba(0, 0, 0, .7*a); ctx.fill()
         elif kind == 'seal':
             museum.ex_seal(ctx, cx, cy, 1.7, a, t)
+        elif kind == 'rigveda':
+            for k in range(10):
+                carve(ctx, lambda k=k: rrect(ctx, cx - 230, cy - 150 + k*31, 460, 24, 6), S['sand'], a, depth=2.8, seed=70 + k)
+        elif kind == 'assembly':
+            for i in range(9):
+                th = math.pi + i*math.pi/8
+                crowd(ctx, cy + 60 + 70*math.sin(th), [cx + 230*math.cos(th)], .9*a, 1.5, t=t, seed=i)
+        elif kind == 'rivers':
+            for k in range(7):
+                ctx.new_path()
+                for x in range(int(cx - 300), int(cx + 300), 20):
+                    ctx.line_to(x, cy - 90 + k*28 + 9*math.sin(x*.02 + k))
+                rgba(ctx, S['lime'], .30*a); ctx.set_line_width(4); ctx.stroke()
+        elif kind == 'ironplough':
+            carve(ctx, lambda: poly(ctx, [(cx - 250, cy + 40), (cx - 60, cy - 10), (cx - 20, cy + 60),
+                                          (cx - 210, cy + 96)]), tuple(v*1.1 for v in S['basalt']), a, depth=5.)
+            carve(ctx, lambda: rrect(ctx, cx + 40, cy - 70, 30, 170, 10), S['clay'], a, depth=4.)
+            carve(ctx, lambda: poly(ctx, [(cx + 30, cy + 94), (cx + 200, cy + 60), (cx + 215, cy + 110),
+                                          (cx + 40, cy + 140)]), tuple(v*1.1 for v in S['basalt']), a, depth=5.)
+        elif kind == 'pgw':
+            museum.ex_pgw(ctx, cx, cy, 2.4, a, t)
+        elif kind == 'horse':
+            carve(ctx, lambda: poly(ctx, [(cx - 170, cy + 60), (cx - 150, cy - 20), (cx - 90, cy - 54),
+                                          (cx + 60, cy - 50), (cx + 150, cy - 10), (cx + 170, cy + 60),
+                                          (cx + 120, cy + 60), (cx + 100, cy + 10), (cx - 100, cy + 10),
+                                          (cx - 120, cy + 60)]), S['clay'], a, depth=5.)
+            rgba(ctx, S['ochre'], .5*a); ctx.set_line_width(4)
+            ctx.move_to(cx - 230, cy + 96); ctx.line_to(cx + 230, cy + 96); ctx.stroke()
+        elif kind == 'melody':
+            for k in range(5):
+                ctx.new_path()
+                for x in range(int(cx - 240), int(cx + 240), 12):
+                    ctx.line_to(x, cy - 80 + k*40 + 16*math.sin(x*.035 + k*1.2))
+                rgba(ctx, S['ochre'], .55*a); ctx.set_line_width(4); ctx.stroke()
+        elif kind == 'ritualbook':
+            carve(ctx, lambda: rrect(ctx, cx - 220, cy - 130, 440, 260, 10), S['sand'], a, depth=5.)
+            for k in range(7):
+                rgba(ctx, S['soot'], .45*a); ctx.rectangle(cx - 180, cy - 100 + k*32, 360 - (k % 3)*70, 11); ctx.fill()
+        elif kind == 'limbs':
+            carve(ctx, lambda: ctx.arc(cx, cy, 84, 0, 2*math.pi), S['clay'], a, depth=5.)
+            for k in range(6):
+                th = k*math.pi/3
+                carve(ctx, lambda th=th: ctx.arc(cx + 185*math.cos(th), cy + 115*math.sin(th), 40, 0, 2*math.pi),
+                      S['sand'], a, depth=3.6, seed=80 + k)
+        elif kind == 'hymn10':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 140, 460, 280, 10), S['sand'], a, depth=5.)
+            for k in range(9):
+                rgba(ctx, S['soot'], .3*a); ctx.rectangle(cx - 190, cy - 110 + k*27, 380, 9); ctx.fill()
+            rgba(ctx, S['ochre'], .85*a); ctx.rectangle(cx - 190, cy + 106, 380, 11); ctx.fill()
+        elif kind == 'path4':
+            rgba(ctx, S['dim'] if 'dim' in S else S['lime'], .3*a)
+            ctx.set_line_width(6); ctx.move_to(cx - 290, cy + 60); ctx.line_to(cx + 290, cy + 60); ctx.stroke()
+            for k in range(4):
+                x = cx - 240 + k*160
+                carve(ctx, lambda x=x: ctx.arc(x, cy + 60, 34, 0, 2*math.pi), S['clay'], a, depth=4., seed=90 + k)
+                crowd(ctx, cy + 10, [x], .85*a, 1.0, t=t, seed=k)
+        elif kind == 'dialogue':
+            crowd(ctx, cy + 80, [cx - 90, cx + 90], .95*a, 2.0, t=t)
+        elif kind == 'dolmen':
+            museum.ex_megalith(ctx, cx, cy, 2.0, a, t)
+        elif kind == 'menhir':
+            carve(ctx, lambda: poly(ctx, [(cx - 44, cy + 120), (cx - 30, cy - 130), (cx + 26, cy - 140),
+                                          (cx + 46, cy + 120)]), tuple(v*1.15 for v in S['basalt']), a, depth=5.5)
+            crowd(ctx, cy + 124, [cx + 150], .8*a, 1.1, t=t)
+        elif kind == 'urn':
+            pot(ctx, cx, cy + 110, 2.2, a)
+            carve(ctx, lambda: ctx.rectangle(cx - 240, cy + 110, 480, 26), tuple(v*.8 for v in S['clay']), a, depth=3.)
         elif kind == 'mounds':
             for i, (dx, w_, h_) in enumerate(((-260, 240, 90), (20, 300, 130), (300, 200, 70))):
                 carve(ctx, lambda dx=dx, w_=w_, h_=h_: (ctx.save(), ctx.translate(cx + dx, cy + 70), ctx.scale(1, h_/w_*1.6),
