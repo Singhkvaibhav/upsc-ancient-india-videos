@@ -488,12 +488,18 @@ def Q_SHAPE(kind):
                 ctx.line_to(cx + 215*math.cos(a2), cy + 140*math.sin(a2))
             ctx.stroke()
         elif kind == 'mandala':
-            for k, r in enumerate((70, 150, 230)):
-                rgba(ctx, S['ochre'] if k % 2 == 0 else S['lime'], (.5 - k*.1)*a)
+            # rings of neighbours around you. The card is narrow, so it carries
+            # the diagram alone; the narration names what the rings mean.
+            for k, r in enumerate((58, 112, 166)):
+                rgba(ctx, S['ochre'] if k % 2 == 0 else S['lime'], (.52 - k*.1)*a)
                 ctx.set_line_width(9); ctx.arc(cx, cy, r, 0, 2*math.pi); ctx.stroke()
-            carve(ctx, lambda: ctx.arc(cx, cy, 44, 0, 2*math.pi), S['sand'], a, depth=4.)
-            for k, lab in enumerate(('YOU', 'NEIGHBOUR', 'THEIR NEIGHBOUR')):
-                engraved(ctx, lab, cx, cy - 2 + k*80 + (0 if k == 0 else 0), 20, a*.9, S['soot'], 'c', serif=False)
+            carve(ctx, lambda: ctx.arc(cx, cy, 38, 0, 2*math.pi), S['sand'], a, depth=4.)
+            engraved(ctx, 'YOU', cx, cy + 8, 21, a*.95, S['soot'], 'c', serif=False)
+            for k, r in enumerate((112, 166)):
+                carve(ctx, lambda r=r: ctx.arc(cx + r, cy, 17, 0, 2*math.pi),
+                      S['lime'] if k else S['terra'], a, depth=2.8, seed=320 + k)
+                carve(ctx, lambda r=r: ctx.arc(cx - r, cy, 17, 0, 2*math.pi),
+                      S['lime'] if k else S['terra'], a, depth=2.8, seed=330 + k)
         elif kind == 'kalinga':
             carve(ctx, lambda: poly(ctx, [(cx - 170, cy + 120), (cx - 186, cy - 20), (cx - 80, cy - 110),
                                           (cx + 90, cy - 116), (cx + 184, cy - 10), (cx + 168, cy + 120)]),
@@ -503,9 +509,12 @@ def Q_SHAPE(kind):
             rgba(ctx, S['terra'], .6*a); ctx.arc(cx + 260, cy - 40, 15, 0, 2*math.pi); ctx.fill()
         elif kind == 'mahamatra':
             crowd(ctx, cy + 110, [cx - 180, cx, cx + 180], .9*a, 2.1, t=t)
-            for dx in (-180, 0, 180):
+            for i, dx in enumerate((-180, 0, 180)):
                 carve(ctx, lambda dx=dx: rrect(ctx, cx + dx - 86, cy - 150, 172, 60, 8),
-                      S['sand'], a, depth=3.6, seed=250 + dx)
+                      S['sand'], a, depth=3.6, seed=250 + i)
+                for j in range(2):
+                    rgba(ctx, S['soot'], .42*a)
+                    ctx.rectangle(cx + dx - 62 + j*8, cy - 132 + j*22, 124 - j*16, 7); ctx.fill()
         elif kind == 'roadworks':
             carve(ctx, lambda: ctx.rectangle(cx - 400, cy + 70, 800, 36), tuple(v*.84 for v in S['clay']), a, depth=4.)
             for k, dx in enumerate((-300, -120, 80, 280)):
@@ -526,12 +535,16 @@ def Q_SHAPE(kind):
                     ctx.rectangle(x - w_, cy - 78 + row*44, w_, 7); ctx.fill()
                     x -= w_ + 12
         elif kind == 'coastpin':
-            ctx.new_path(); ctx.move_to(cx - 360, cy - 170)
-            ctx.curve_to(cx - 180, cy - 40, cx - 230, cy + 60, cx - 120, cy + 180)
-            ctx.set_source_rgba(.26, .44, .48, .5*a); ctx.set_line_width(80); ctx.stroke()
-            carve(ctx, lambda: poly(ctx, [(cx + 40, cy + 40), (cx + 16, cy - 40), (cx + 64, cy - 40)]),
-                  S['terra'], a, depth=4.)
-            carve(ctx, lambda: ctx.arc(cx + 40, cy - 58, 30, 0, 2*math.pi), S['terra'], a, depth=4.)
+            # a coastline down the left of the card, with a carved pin on it
+            ctx.new_path(); ctx.move_to(cx - 150, cy - 150)
+            ctx.curve_to(cx - 60, cy - 60, cx - 96, cy + 30, cx - 40, cy + 150)
+            ctx.set_source_rgba(.26, .44, .48, .46*a); ctx.set_line_width(52); ctx.stroke()
+            rgba(ctx, S['ochre'], a); ctx.set_line_width(4)
+            ctx.move_to(cx + 70, cy + 70); ctx.line_to(cx + 70, cy - 10); ctx.stroke()
+            carve(ctx, lambda: ctx.arc(cx + 70, cy - 28, 20, 0, 2*math.pi), S['ochre'], a, depth=3.)
+            for r_ in (36, 60):
+                rgba(ctx, S['ochre'], .26*a); ctx.set_line_width(3)
+                ctx.new_path(); ctx.arc(cx + 70, cy + 70, r_, 0, 2*math.pi); ctx.stroke()
         elif kind == 'caves':
             carve(ctx, lambda: poly(ctx, [(cx - 330, cy + 150), (cx - 250, cy - 90), (cx - 40, cy - 160),
                                           (cx + 220, cy - 100), (cx + 330, cy + 150)]),

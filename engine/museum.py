@@ -337,13 +337,25 @@ def ex_bullcapital(ctx, cx, cy, s=1., a=1., t=0.):
         rgba(ctx, S['soot'], .2*a); ctx.set_line_width(2.6*s)
         ctx.move_to(cx - 72*s + k*18*s, cy + 56*s); ctx.line_to(cx - 26*s + k*6.6*s, cy - 4*s); ctx.stroke()
     ctx.restore()
-    carve(ctx, lambda: ctx.rectangle(cx - 60*s, cy - 18*s, 120*s, 16*s), S['sand'], a, depth=3*s, seed=171)
-    # a standing bull in profile, facing left, with its hump
-    carve(ctx, lambda: poly(ctx, [(cx - 72*s, cy - 34*s), (cx - 66*s, cy - 62*s), (cx - 44*s, cy - 70*s),
-                                  (cx - 20*s, cy - 92*s), (cx + 10*s, cy - 72*s), (cx + 52*s, cy - 66*s),
-                                  (cx + 70*s, cy - 34*s), (cx + 52*s, cy - 34*s), (cx + 46*s, cy - 50*s),
-                                  (cx - 46*s, cy - 50*s), (cx - 52*s, cy - 34*s)]),
-          tuple(v*.94 for v in S['lime']), a, depth=3.6*s, tex=.2, seed=172)
+    # the abacus the bull stands on
+    carve(ctx, lambda: ctx.rectangle(cx - 66*s, cy - 22*s, 132*s, 18*s), S['sand'], a, depth=3*s, seed=171)
+    # a standing bull in profile, facing left: body, hump, head, legs, tail
+    col = tuple(v*.96 for v in S['lime'])
+    carve(ctx, lambda: rrect(ctx, cx - 50*s, cy - 78*s, 104*s, 40*s, 14*s), col, a, depth=3.6*s, tex=.2, seed=172)
+    carve(ctx, lambda: (ctx.save(), ctx.translate(cx + 4*s, cy - 78*s), ctx.scale(1, .62),
+                        ctx.arc(0, 0, 30*s, math.pi, 2*math.pi), ctx.restore(), ctx.close_path()),
+          col, a, depth=3.2*s, tex=.2, seed=173)            # the hump
+    carve(ctx, lambda: poly(ctx, [(cx - 50*s, cy - 72*s), (cx - 78*s, cy - 66*s), (cx - 88*s, cy - 52*s),
+                                  (cx - 76*s, cy - 40*s), (cx - 50*s, cy - 44*s)]),
+          col, a, depth=3.*s, tex=.2, seed=174)              # the head, lowered
+    carve(ctx, lambda: poly(ctx, [(cx - 84*s, cy - 66*s), (cx - 92*s, cy - 80*s), (cx - 74*s, cy - 70*s)]),
+          col, a, depth=2.4*s, tex=.2, seed=175)             # a horn
+    for dx in (-38, -16, 26, 46):
+        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 6*s, cy - 42*s, 12*s, 24*s),
+              col, a, depth=2.6*s, tex=.2, seed=176)         # legs
+    rgba(ctx, S['soot'], .3*a); ctx.set_line_width(4*s)
+    ctx.move_to(cx + 54*s, cy - 70*s); ctx.curve_to(cx + 68*s, cy - 58*s, cx + 64*s, cy - 38*s, cx + 58*s, cy - 26*s)
+    ctx.stroke()                                             # the tail
 
 
 def ex_rockedict(ctx, cx, cy, s=1., a=1., t=0.):
