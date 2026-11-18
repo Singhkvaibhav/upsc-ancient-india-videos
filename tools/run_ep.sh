@@ -65,3 +65,13 @@ if [ -n "$2" ]; then
   cd "$R" && python3 tools/thumb.py "$1" "$2" "$3" "$4" "output/youtube/Anc${EP}_thumb.png" > /dev/null
 fi
 echo "ep$EP DELIVERED $(du -h "$R/output/Anc${EP}_${TITLE}.mp4" | cut -f1)"
+
+# --- clear this episode's scratch
+# The session's disk is a fixed allowance, and one episode leaves roughly a
+# gigabyte of parts, narration and mixes behind. Episode 27 failed mid-queue
+# once because 26 episodes' worth of scratch had filled the volume. Now that
+# the deliverables are copied out, none of it is needed again: a re-render
+# regenerates all of it.
+rm -rf "$D/parts" "$D/vo" "$D/vo_hi"
+rm -f "$D"/*.wav "$D"/*.m4a "$D"/*.mp4 "$D"/*.srt "$D"/*.log "$D"/*.png "$D"/concat.txt \
+      "$D"/ffmpeg2pass-*.log* 2>/dev/null || true

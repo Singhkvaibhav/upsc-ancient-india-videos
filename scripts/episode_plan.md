@@ -56,13 +56,13 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 6: Guptas to the tripartite struggle (Ep 28–34)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 28 | The rise of the Guptas ★ | Samudragupta, Chandragupta II | A Gupta gold coin | to script |
-| 29 | Gupta administration and society | Government, land grants, society | A copper-plate land grant | to script |
-| 30 | Gupta science and literature ★ | Aryabhata, Varahamihira, Kalidasa | A model of the Iron Pillar at Mehrauli | to script |
-| 31 | Harshavardhana ★ | Harsha's empire, Hiuen Tsang's account | An inscribed copper plate | to script |
-| 32 | The Vakatakas and the Deccan | Deccan kingdoms, patrons of Ajanta | A decorative painted panel | to script |
-| 33 | Chalukyas of Badami and Pallavas ★ | Rivalry, temples, Pulakeshin II | A rock-cut ratha model | to script |
-| 34 | The tripartite struggle ★ | Palas, Pratiharas and Rashtrakutas fight for Kannauj | A model of the Kailasa temple, Ellora | to script |
+| 28 | The rise of the Guptas ★ | Samudragupta, Chandragupta II | A Gupta gold coin | scripted |
+| 29 | Gupta administration and society | Government, land grants, society | A copper-plate land grant | scripted |
+| 30 | Gupta science and literature ★ | Aryabhata, Varahamihira, Kalidasa | A model of the Iron Pillar at Mehrauli | scripted |
+| 31 | Harshavardhana ★ | Harsha's empire, Hiuen Tsang's account | An inscribed copper plate | scripted |
+| 32 | The Vakatakas and the Deccan | Deccan kingdoms, patrons of Ajanta | A decorative painted panel | scripted |
+| 33 | Chalukyas of Badami and Pallavas ★ | Rivalry, temples, Pulakeshin II | A rock-cut ratha model | scripted |
+| 34 | The tripartite struggle ★ | Palas, Pratiharas and Rashtrakutas fight for Kannauj | A model of the Kailasa temple, Ellora | scripted |
 
 ## Unit 7: Early medieval kingdoms (Ep 35–37)
 | # | Episode | Covers | Exhibit | Status |
