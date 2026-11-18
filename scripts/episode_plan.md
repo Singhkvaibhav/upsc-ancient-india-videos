@@ -67,17 +67,17 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 7: Early medieval kingdoms (Ep 35–37)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 35 | The Cholas ★ | Village administration, navy, temples | A model of a Chola temple tower | to script |
-| 36 | Later Chalukyas, Hoysalas, Yadavas and Kakatiyas | Southern and Deccan kingdoms | A star-shaped Hoysala temple plan | to script |
-| 37 | The Rajput kingdoms | Origins, major clans | A hill-fort model | to script |
+| 35 | The Cholas ★ | Village administration, navy, temples | A model of a Chola temple tower | scripted |
+| 36 | Later Chalukyas, Hoysalas, Yadavas and Kakatiyas | Southern and Deccan kingdoms | A star-shaped Hoysala temple plan | scripted |
+| 37 | The Rajput kingdoms | Origins, major clans | A hill-fort model | scripted |
 
 ## Unit 8: Themes (Ep 38–44)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 38 | Ancient Indian science and mathematics | Zero, decimal system, astronomy, medicine | An inscription showing an early zero | to script |
-| 39 | Ancient universities ★ | Nalanda, Taxila, Vikramashila, Vallabhi | A Nalanda monastery seal | to script |
-| 40 | Foreign travellers ★ | Megasthenes, Fa-Hien, Hiuen Tsang, I-Tsing, Al-Biruni | A traveller's staff and journal | to script |
-| 41 | Land grants and the feudalism debate | Agrahara grants, historians' views | A village boundary stone | to script |
-| 42 | Coins and inscriptions | Punch-marked coins to Gupta gold; key inscriptions | A tray of coins | to script |
-| 43 | Women in ancient India | Changing status across periods | An inscribed tablet naming women scholars and patrons | to script |
-| 44 | Ancient India: a walk through the gallery | Series recap | The whole gallery | to script |
+| 38 | Ancient Indian science and mathematics | Zero, decimal system, astronomy, medicine | An inscription showing an early zero | scripted |
+| 39 | Ancient universities ★ | Nalanda, Taxila, Vikramashila, Vallabhi | A Nalanda monastery seal | scripted |
+| 40 | Foreign travellers ★ | Megasthenes, Fa-Hien, Hiuen Tsang, I-Tsing, Al-Biruni | A traveller's staff and journal | scripted |
+| 41 | Land grants and the feudalism debate | Agrahara grants, historians' views | A village boundary stone | scripted |
+| 42 | Coins and inscriptions | Punch-marked coins to Gupta gold; key inscriptions | A tray of coins | scripted |
+| 43 | Women in ancient India | Changing status across periods | An inscribed tablet naming women scholars and patrons | scripted |
+| 44 | Ancient India: a walk through the gallery | Series recap | The whole gallery | scripted |
