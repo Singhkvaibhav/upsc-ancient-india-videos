@@ -184,3 +184,118 @@ EXHIBITS.update({
     10: (ex_altar, 'EP 10 · FIRE ALTAR'),
     11: (ex_megalith, 'EP 11 · BURIAL STONE'),
 })
+
+
+# ---------- Unit 3 exhibits ----------
+def ex_punchcoin(ctx, cx, cy, s=1., a=1., t=0.):
+    """a punch-marked coin: an irregular silver piece with several separate marks
+    and no ruler's name on it."""
+    carve(ctx, lambda: poly(ctx, [(cx - 86*s, cy - 62*s), (cx + 60*s, cy - 80*s), (cx + 88*s, cy + 34*s),
+                                  (cx + 12*s, cy + 82*s), (cx - 78*s, cy + 46*s)]),
+          tuple(v*1.08 for v in S['lime']), a, depth=4.4*s)
+    rr = random.Random(11)
+    for k in range(5):
+        px, py = cx + rr.uniform(-54, 50)*s, cy + rr.uniform(-42, 44)*s
+        rgba(ctx, S['soot'], .46*a)
+        if k % 3 == 0:
+            ctx.arc(px, py, 13*s, 0, 2*math.pi); ctx.fill()
+        elif k % 3 == 1:
+            for j in range(6):
+                ang = j*math.pi/3
+                ctx.move_to(px, py); ctx.line_to(px + 15*s*math.cos(ang), py + 15*s*math.sin(ang))
+            ctx.set_line_width(3.2*s); ctx.stroke()
+        else:
+            ctx.rectangle(px - 11*s, py - 11*s, 22*s, 22*s); ctx.fill()
+
+
+def ex_wallsection(ctx, cx, cy, s=1., a=1., t=0.):
+    """a cut section of rampart: earth core, brick face, and the stumps of a
+    timber palisade along the top."""
+    carve(ctx, lambda: poly(ctx, [(cx - 130*s, cy + 76*s), (cx - 96*s, cy - 46*s), (cx + 96*s, cy - 46*s),
+                                  (cx + 130*s, cy + 76*s)]), tuple(v*.86 for v in S['clay']), a, depth=5*s)
+    carve(ctx, lambda: ctx.rectangle(cx - 100*s, cy - 46*s, 200*s, 42*s), S['sand'], a, depth=3.6*s, seed=61)
+    coursed(ctx, cx - 100*s, cy - 46*s, 200*s, 42*s, a*.85, seed=62, course=13*s)
+    for k in range(5):
+        carve(ctx, lambda k=k: ctx.rectangle(cx - 86*s + k*40*s, cy - 80*s, 15*s, 36*s),
+              tuple(v*.78 for v in S['clay']), a, depth=2.6*s, tex=.3, seed=70 + k)
+
+
+def ex_bodhi(ctx, cx, cy, s=1., a=1., t=0.):
+    """the Bodhi tree above an empty throne, with footprints before it: the
+    aniconic way early Indian art showed the Buddha. No figure is drawn."""
+    carve(ctx, lambda: ctx.rectangle(cx - 13*s, cy - 70*s, 26*s, 96*s), tuple(v*.8 for v in S['clay']), a, depth=3.4*s)
+    rr = random.Random(13)
+    for k in range(16):
+        ang = math.pi + k*math.pi/15
+        rx, ry = cx + 104*s*math.cos(ang), cy - 74*s + 52*s*math.sin(ang)
+        carve(ctx, lambda rx=rx, ry=ry: poly(ctx, [(rx, ry + 20*s), (rx - 17*s, ry - 4*s), (rx, ry - 26*s),
+                                                   (rx + 17*s, ry - 4*s)]),
+              tuple(v*.92 for v in S['clay']), a*.95, depth=2.2*s, tex=.22, seed=80 + k)
+    # the empty seat
+    carve(ctx, lambda: ctx.rectangle(cx - 56*s, cy + 22*s, 112*s, 20*s), S['sand'], a, depth=4*s, seed=91)
+    for dx in (-44, 44):
+        carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx*s - 9*s, cy + 42*s, 18*s, 32*s), S['sand'], a, depth=3*s, seed=92)
+    # footprints before it
+    for dx in (-19, 19):
+        carve(ctx, lambda dx=dx: rrect(ctx, cx + dx*s - 11*s, cy + 82*s, 22*s, 34*s, 10*s),
+              tuple(v*.9 for v in S['sand']), a, depth=2.2*s, tex=.25, seed=95)
+
+
+def ex_stupamodel(ctx, cx, cy, s=1., a=1., t=0.):
+    """a small stupa: dome, railing, mast and tiered umbrellas"""
+    carve(ctx, lambda: ctx.rectangle(cx - 104*s, cy + 44*s, 208*s, 26*s), S['sand'], a, depth=4*s)
+    carve(ctx, lambda: (ctx.save(), ctx.translate(cx, cy + 44*s), ctx.scale(1, .86),
+                        ctx.arc(0, 0, 86*s, math.pi, 2*math.pi), ctx.restore(), ctx.close_path()),
+          S['lime'], a, depth=5*s, seed=101)
+    for k in range(7):
+        carve(ctx, lambda k=k: ctx.rectangle(cx - 104*s + k*30*s, cy + 44*s, 9*s, 30*s),
+              tuple(v*.9 for v in S['sand']), a, depth=2*s, tex=.2, seed=110 + k)
+    carve(ctx, lambda: ctx.rectangle(cx - 24*s, cy - 58*s, 48*s, 26*s), S['sand'], a, depth=3*s, seed=120)
+    carve(ctx, lambda: ctx.rectangle(cx - 4*s, cy - 104*s, 8*s, 50*s), tuple(v*.8 for v in S['clay']), a, depth=2.4*s)
+    for k in range(3):
+        w_ = (46 - k*12)*s
+        carve(ctx, lambda k=k, w_=w_: ctx.rectangle(cx - w_, cy - 100*s + k*15*s, w_*2, 7*s),
+              S['ochre'], a, depth=2*s, tex=.2, seed=130 + k)
+
+
+def ex_ayagapata(ctx, cx, cy, s=1., a=1., t=0.):
+    """an ayagapata, a Jain votive tablet: a square slab with symbols and a band
+    of ornament around an empty central panel. Nothing revered is depicted."""
+    carve(ctx, lambda: rrect(ctx, cx - 98*s, cy - 98*s, 196*s, 196*s, 8*s), S['sand'], a, depth=5*s)
+    carve(ctx, lambda: ctx.arc(cx, cy, 62*s, 0, 2*math.pi), tuple(v*.94 for v in S['sand']), a, depth=3*s, seed=141)
+    # a lotus-petal band, and corner symbols
+    for k in range(16):
+        ang = k*math.pi/8
+        px, py = cx + 44*s*math.cos(ang), cy + 44*s*math.sin(ang)
+        rgba(ctx, S['soot'], .34*a)
+        ctx.arc(px, py, 8*s, 0, 2*math.pi); ctx.fill()
+    for dx, dy in ((-70, -70), (70, -70), (-70, 70), (70, 70)):
+        rgba(ctx, S['soot'], .4*a)
+        ctx.rectangle(cx + dx*s - 13*s, cy + dy*s - 13*s, 26*s, 26*s); ctx.fill()
+    for k in range(4):
+        rgba(ctx, S['soot'], .34*a)
+        ctx.rectangle(cx - 58*s, cy + 74*s + k*0, 116*s, 5*s); ctx.fill()
+
+
+def ex_greekcoin(ctx, cx, cy, s=1., a=1., t=0.):
+    """a Greek-style silver coin: a round flan with a generic profile in relief and
+    lettering round the rim. The head is an invented generic form, not a portrait."""
+    carve(ctx, lambda: ctx.arc(cx, cy, 92*s, 0, 2*math.pi), tuple(v*1.06 for v in S['lime']), a, depth=5.4*s)
+    carve(ctx, lambda: poly(ctx, [(cx - 34*s, cy + 46*s), (cx - 40*s, cy - 6*s), (cx - 22*s, cy - 40*s),
+                                  (cx + 14*s, cy - 46*s), (cx + 34*s, cy - 18*s), (cx + 26*s, cy + 16*s),
+                                  (cx + 32*s, cy + 46*s)]),
+          tuple(v*.9 for v in S['lime']), a, depth=3.4*s, tex=.2, seed=151)
+    for k in range(18):
+        ang = k*math.pi/9
+        rgba(ctx, S['soot'], .34*a)
+        ctx.rectangle(cx + 78*s*math.cos(ang) - 3*s, cy + 78*s*math.sin(ang) - 3*s, 6*s, 6*s); ctx.fill()
+
+
+EXHIBITS.update({
+    12: (ex_punchcoin, 'EP 12 · PUNCH-MARKED COIN'),
+    13: (ex_wallsection, 'EP 13 · CITY WALL SECTION'),
+    14: (ex_bodhi, 'EP 14 · TREE AND EMPTY THRONE'),
+    15: (ex_stupamodel, 'EP 15 · STUPA'),
+    16: (ex_ayagapata, 'EP 16 · VOTIVE TABLET'),
+    17: (ex_greekcoin, 'EP 17 · GREEK-STYLE COIN'),
+})

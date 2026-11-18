@@ -291,6 +291,108 @@ def Q_SHAPE(kind):
         elif kind == 'urn':
             pot(ctx, cx, cy + 110, 2.2, a)
             carve(ctx, lambda: ctx.rectangle(cx - 240, cy + 110, 480, 26), tuple(v*.8 for v in S['clay']), a, depth=3.)
+        elif kind == 'nbpw':
+            def bowl():
+                ctx.move_to(cx - 150, cy - 70); ctx.curve_to(cx - 140, cy + 60, cx + 140, cy + 60, cx + 150, cy - 70)
+                ctx.close_path()
+            carve(ctx, bowl, tuple(v*.5 for v in S['lime']), a, depth=5.)
+            ctx.save(); ctx.new_path(); bowl(); ctx.clip()
+            for k in range(4):
+                rgba(ctx, S['lime'], .22*a); ctx.rectangle(cx - 170, cy - 56 + k*26, 340, 7); ctx.fill()
+            ctx.restore()
+        elif kind == 'hillring':
+            for i, (dx, w_, h_) in enumerate(((-330, 230, 120), (-140, 200, 95), (150, 240, 130), (360, 190, 100))):
+                carve(ctx, lambda dx=dx, w_=w_, h_=h_: poly(ctx, [(cx + dx - w_/2, cy + 110), (cx + dx, cy + 110 - h_),
+                                                                  (cx + dx + w_/2, cy + 110)]),
+                      tuple(v*1.1 for v in S['basalt']), a, depth=4.5, seed=160 + i)
+            for i, dx in enumerate((-90, 10, 110)):
+                carve(ctx, lambda dx=dx: ctx.rectangle(cx + dx - 36, cy + 34, 72, 76), S['sand'], a, depth=3.6, seed=170 + i)
+        elif kind == 'treasury':
+            carve(ctx, lambda: ctx.rectangle(cx - 300, cy - 30, 230, 150), S['sand'], a, depth=5.)
+            for k in range(9):
+                carve(ctx, lambda k=k: ctx.arc(cx - 270 + (k % 3)*58, cy + 10 + (k//3)*42, 20, 0, 2*math.pi),
+                      S['ochre'], a, depth=3., seed=180 + k)
+            crowd(ctx, cy + 120, [cx + 10 + i*62 for i in range(6)], .85*a, 1.5, t=t)
+        elif kind == 'confederacy':
+            for i, dx in enumerate((-290, -150, -10, 130, 270)):
+                off = (0 if i < 2 else (i - 1)*22)
+                carve(ctx, lambda dx=dx, off=off: ctx.rectangle(cx + dx + off, cy - 10 + off*.7, 108, 94),
+                      S['sand'], a, depth=4., seed=190 + i)
+                crowd(ctx, cy + 84 + off*.7, [cx + dx + off + 54], .8*a, 1.1, t=t, seed=i)
+        elif kind == 'bodhitree':
+            museum.ex_bodhi(ctx, cx, cy, 1.9, a, t)
+        elif kind == 'wheelpark':
+            carve(ctx, lambda: ctx.arc(cx, cy, 120, 0, 2*math.pi), S['sand'], a, depth=5.)
+            carve(ctx, lambda: ctx.arc(cx, cy, 26, 0, 2*math.pi), tuple(v*.88 for v in S['sand']), a, depth=3.)
+            for k in range(8):
+                ang = k*math.pi/4
+                rgba(ctx, S['soot'], .44*a); ctx.set_line_width(11)
+                ctx.move_to(cx + 26*math.cos(ang), cy + 26*math.sin(ang))
+                ctx.line_to(cx + 112*math.cos(ang), cy + 112*math.sin(ang)); ctx.stroke()
+            for dx in (-270, 250):
+                carve(ctx, lambda dx=dx: poly(ctx, [(cx + dx - 44, cy + 110), (cx + dx - 24, cy + 20),
+                                                    (cx + dx + 24, cy + 20), (cx + dx + 44, cy + 110)]),
+                      tuple(v*.9 for v in S['clay']), a, depth=3., seed=200)
+        elif kind == 'stupa':
+            museum.ex_stupamodel(ctx, cx, cy, 1.7, a, t)
+        elif kind == 'chaitya':
+            carve(ctx, lambda: ctx.rectangle(cx - 220, cy - 150, 440, 300), tuple(v*1.1 for v in S['basalt']), a, depth=6.)
+            ctx.new_path()
+            ctx.move_to(cx - 92, cy + 150); ctx.line_to(cx - 92, cy - 30)
+            ctx.curve_to(cx - 92, cy - 136, cx + 92, cy - 136, cx + 92, cy - 30)
+            ctx.line_to(cx + 92, cy + 150); ctx.close_path()
+            ctx.set_source_rgba(0, 0, 0, .8*a); ctx.fill()
+            for k in range(5):
+                rgba(ctx, S['sand'], .4*a); ctx.set_line_width(5)
+                ctx.arc(cx, cy - 30, 30 + k*14, math.pi, 2*math.pi); ctx.stroke()
+        elif kind == 'vihara':
+            carve(ctx, lambda: ctx.rectangle(cx - 280, cy - 130, 560, 260), S['sand'], a, depth=5.5)
+            for k in range(8):
+                ctx.new_path()
+                ctx.rectangle(cx - 250 + (k % 4)*134, cy - 100 + (k//4)*124, 86, 88)
+                ctx.set_source_rgba(0, 0, 0, .74*a); ctx.fill()
+        elif kind == 'crossing':
+            ctx.new_path(); ctx.rectangle(cx - 330, cy + 30, 660, 90)
+            ctx.set_source_rgba(.26, .44, .48, .62*a); ctx.fill()
+            for k in range(6):
+                carve(ctx, lambda k=k: ctx.rectangle(cx - 280 + k*110, cy - 10, 58, 46),
+                      S['sand'], a, depth=3.4, seed=210 + k)
+            carve(ctx, lambda: poly(ctx, [(cx - 36, cy - 30), (cx - 22, cy - 150), (cx + 22, cy - 150),
+                                          (cx + 36, cy - 30)]), tuple(v*1.1 for v in S['lime']), a, depth=4.5)
+        elif kind == 'vows5':
+            for k in range(5):
+                carve(ctx, lambda k=k: rrect(ctx, cx - 350 + k*145, cy - 80, 120, 160, 8),
+                      S['sand'], a, depth=4., seed=220 + k)
+                for j in range(3):
+                    rgba(ctx, S['soot'], .4*a)
+                    ctx.rectangle(cx - 330 + k*145, cy - 40 + j*30, 80, 7); ctx.fill()
+        elif kind == 'manysided':
+            carve(ctx, lambda: poly(ctx, [(cx - 90, cy + 70), (cx - 110, cy - 40), (cx, cy - 100),
+                                          (cx + 110, cy - 40), (cx + 90, cy + 70)]),
+                  tuple(v*1.1 for v in S['lime']), a, depth=5.)
+            for k in range(6):
+                ang = math.pi + k*math.pi/5
+                ex_, ey = cx + 300*math.cos(ang), cy + 190*math.sin(ang)
+                rgba(ctx, S['ochre'], .42*a); ctx.set_line_width(5)
+                ctx.move_to(ex_, ey); ctx.line_to(cx + 150*math.cos(ang), cy + 95*math.sin(ang)); ctx.stroke()
+                rgba(ctx, S['ochre'], .5*a); ctx.arc(ex_, ey, 12, 0, 2*math.pi); ctx.fill()
+        elif kind == 'niyati':
+            carve(ctx, lambda: rrect(ctx, cx - 210, cy - 130, 420, 260, 10), S['sand'], a, depth=5.)
+            for k in range(5):
+                rgba(ctx, S['soot'], .42*a); ctx.rectangle(cx - 160, cy - 86 + k*42, 320, 10); ctx.fill()
+            rgba(ctx, S['soot'], .3*a); ctx.set_line_width(7)
+            ctx.move_to(cx - 160, cy - 86); ctx.line_to(cx + 160, cy + 128); ctx.stroke()
+        elif kind == 'senses':
+            carve(ctx, lambda: rrect(ctx, cx - 230, cy - 120, 460, 240, 10), S['sand'], a, depth=5.)
+            for k in range(5):
+                px = cx - 170 + k*85
+                carve(ctx, lambda px=px: ctx.arc(px, cy, 30, 0, 2*math.pi),
+                      tuple(v*.9 for v in S['lime']), a, depth=3., seed=230 + k)
+        elif kind == 'riverhalt':
+            ctx.new_path(); ctx.move_to(cx + 60, cy - 170)
+            ctx.curve_to(cx + 140, cy - 40, cx - 20, cy + 50, cx + 90, cy + 170)
+            ctx.set_source_rgba(.26, .44, .48, .72*a); ctx.set_line_width(58); ctx.stroke()
+            crowd(ctx, cy + 90, [cx - 300 + i*60 for i in range(5)], .85*a, 1.5, t=t)
         elif kind == 'mounds':
             for i, (dx, w_, h_) in enumerate(((-260, 240, 90), (20, 300, 130), (300, 200, 70))):
                 carve(ctx, lambda dx=dx, w_=w_, h_=h_: (ctx.save(), ctx.translate(cx + dx, cy + 70), ctx.scale(1, h_/w_*1.6),
