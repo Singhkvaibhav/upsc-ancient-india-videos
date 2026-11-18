@@ -1,0 +1,224 @@
+1
+00:00:00,900 --> 00:00:05,389
+The brush uncovers an altar of layered brick, laid out with real precision.
+
+2
+00:00:05,389 --> 00:00:11,596
+Nothing is worshipped here that can be drawn: there is no image, no figure, only fire and geometry.
+
+3
+00:00:17,167 --> 00:00:24,035
+This episode is about the order that grew up around that fire — an order that organised Indian society for a very long time,
+
+4
+00:00:24,035 --> 00:00:26,423
+and that is still argued about today.
+
+5
+00:00:30,233 --> 00:00:33,576
+Mostly from texts, and that is important to say plainly.
+
+6
+00:00:33,576 --> 00:00:39,089
+The texts tell us how society was supposed to be arranged, by the people doing the arranging.
+
+7
+00:00:39,089 --> 00:00:44,550
+How far ordinary life matched that is a separate question, and the evidence is thinner.
+
+8
+00:00:48,400 --> 00:00:53,678
+The word varna names a fourfold order: brahmana, the priest and teacher; kshatriya,
+
+9
+00:00:53,678 --> 00:01:00,451
+the ruler and warrior; vaishya, the farmer, herder and trader; and shudra, who serves the other three.
+
+10
+00:01:03,767 --> 00:01:06,354
+The classic description appears in the Purusha Sukta,
+
+11
+00:01:06,354 --> 00:01:11,576
+a hymn in the tenth book of the Rigveda — and that tenth book is generally held to be the latest part of it,
+
+12
+00:01:11,576 --> 00:01:13,553
+which matters for dating the idea.
+
+13
+00:01:18,733 --> 00:01:22,800
+In the earliest layer the divisions look occupational and fairly loose:
+
+14
+00:01:22,800 --> 00:01:26,980
+the texts record people whose family members followed different callings.
+
+15
+00:01:26,980 --> 00:01:29,935
+By the later Vedic period the picture hardens.
+
+16
+00:01:33,400 --> 00:01:37,891
+Position is increasingly tied to birth, the top two groups claim ritual privileges,
+
+17
+00:01:37,891 --> 00:01:41,205
+and the distance between the fourth group and the rest grows.
+
+18
+00:01:41,205 --> 00:01:45,836
+The direction of travel, across these centuries, is from flexible towards fixed.
+
+19
+00:01:47,633 --> 00:01:54,104
+Alongside varna sits a second scheme: the ashramas, four stages of an individual life.
+
+20
+00:01:54,104 --> 00:01:56,112
+Brahmacharya, the student.
+
+21
+00:01:56,112 --> 00:01:58,194
+Grihastha, the householder.
+
+22
+00:01:58,194 --> 00:02:01,095
+Vanaprastha, withdrawal to the forest.
+
+23
+00:02:01,095 --> 00:02:03,180
+Sannyasa, renunciation.
+
+24
+00:02:04,433 --> 00:02:13,866
+And four aims of life, the purusharthas: dharma, right conduct; artha, material wellbeing; kama, pleasure and desire; moksha, release.
+
+25
+00:02:13,866 --> 00:02:21,642
+Note that this was an ideal scheme, set out in texts, not a description of how most people actually lived.
+
+26
+00:02:24,000 --> 00:02:24,655
+And women.
+
+27
+00:02:24,655 --> 00:02:34,120
+In the early Vedic period women took part in rituals and in debate, and the texts name some of them: Gargi, who questions a teacher closely in the Upanishads;
+
+28
+00:02:34,120 --> 00:02:41,266
+Maitreyi, who asks what wealth is worth if it does not bring immortality; Lopamudra, to whom hymns are attributed.
+
+29
+00:02:45,033 --> 00:02:49,932
+In the later Vedic period the picture narrows: participation in sacrifice declines,
+
+30
+00:02:49,932 --> 00:02:54,306
+access to Vedic study is restricted, and the household role is emphasised.
+
+31
+00:02:54,306 --> 00:02:58,339
+Both things are true, and the change between them is the point.
+
+32
+00:03:00,533 --> 00:03:02,680
+How fixed was this order to begin with?
+
+33
+00:03:02,680 --> 00:03:09,604
+One reading holds that varna started as a loose division of work and hardened over centuries into something determined by birth.
+
+34
+00:03:09,604 --> 00:03:12,073
+Another holds that hierarchy was there early,
+
+35
+00:03:12,073 --> 00:03:17,257
+and that we should be cautious with texts composed by the group placed at the top of them.
+
+36
+00:03:22,233 --> 00:03:24,546
+This is a live and consequential debate.
+
+37
+00:03:24,546 --> 00:03:29,621
+What is not in dispute is the direction: the order became more rigid over time, and jati,
+
+38
+00:03:29,621 --> 00:03:33,569
+the much larger system of birth-groups most people actually lived in,
+
+39
+00:03:33,569 --> 00:03:37,930
+develops later and is a different thing from the fourfold varna scheme.
+
+40
+00:03:41,000 --> 00:03:44,936
+Here is the memory tip, carved in stone.
+
+41
+00:03:44,936 --> 00:03:46,583
+Four stages of a life.
+
+42
+00:03:46,583 --> 00:03:48,387
+Four aims of a life.
+
+43
+00:03:52,467 --> 00:03:53,145
+Dig Quiz.
+
+44
+00:03:53,145 --> 00:03:54,433
+Pause and name it.
+
+45
+00:03:54,433 --> 00:04:00,806
+First: the hymn in the tenth book of the Rigveda that gives the classic fourfold description.
+
+46
+00:04:00,806 --> 00:04:02,395
+The Purusha Sukta.
+
+47
+00:04:04,433 --> 00:04:08,987
+Second: the four stages of an individual life, from student to renunciant.
+
+48
+00:04:08,987 --> 00:04:09,837
+The ashramas.
+
+49
+00:04:09,837 --> 00:04:16,876
+Third: the woman in the Upanishads who asks whether wealth is worth anything if it does not bring immortality.
+
+50
+00:04:18,500 --> 00:04:19,121
+Maitreyi.
+
+51
+00:04:19,121 --> 00:04:24,634
+In Mains, a standing question asks you to trace the development of the varna order.
+
+52
+00:04:25,933 --> 00:04:29,524
+Trace it: occupational and loose, then increasingly by birth,
+
+53
+00:04:29,524 --> 00:04:34,457
+and say clearly which parts are textual ideal and which are evidenced practice.
+
+54
+00:04:37,833 --> 00:04:43,630
+A fire altar takes its place in the gallery: the centre of a world with no temples and no images.
+
+55
+00:04:46,167 --> 00:04:52,155
+Next gallery: south India, where a completely different world was burying its dead under stone.
+
+56
+00:04:52,155 --> 00:04:56,010
+To catch it when it's out, subscribe to Gyaan-X Studios.
+
