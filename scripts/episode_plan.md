@@ -46,12 +46,12 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 5: After the Mauryas (Ep 22–27)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 22 | Shungas, Kanvas and Satavahanas ★ | Successor dynasties in the north and Deccan | A carved stupa gateway (torana) | to script |
-| 23 | Indo-Greeks, Shakas and Parthians | Rulers from the northwest, coins | A bilingual Indo-Greek coin | to script |
-| 24 | The Kushanas ★ | Kanishka, the fourth Buddhist council, Silk Road | A Kushana gold coin | to script |
-| 25 | The Sangam kingdoms ★ | Cheras, Cholas, Pandyas | A hero stone | to script |
-| 26 | Sangam literature and society | The three Sangams, Tolkappiyam, akam and puram poems | A Tamil palm-leaf manuscript | to script |
-| 27 | Trade with Rome and the world | Ports, goods, Roman coins | A Roman amphora | to script |
+| 22 | Shungas, Kanvas and Satavahanas ★ | Successor dynasties in the north and Deccan | A carved stupa gateway (torana) | scripted |
+| 23 | Indo-Greeks, Shakas and Parthians | Rulers from the northwest, coins | A bilingual Indo-Greek coin | scripted |
+| 24 | The Kushanas ★ | Kanishka, the fourth Buddhist council, Silk Road | A Kushana gold coin | scripted |
+| 25 | The Sangam kingdoms ★ | Cheras, Cholas, Pandyas | A hero stone | scripted |
+| 26 | Sangam literature and society | The three Sangams, Tolkappiyam, akam and puram poems | A Tamil palm-leaf manuscript | scripted |
+| 27 | Trade with Rome and the world | Ports, goods, Roman coins | A Roman amphora | scripted |
 
 ## Unit 6: Guptas to the tripartite struggle (Ep 28–34)
 | # | Episode | Covers | Exhibit | Status |
