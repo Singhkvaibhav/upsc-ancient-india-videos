@@ -299,3 +299,80 @@ EXHIBITS.update({
     16: (ex_ayagapata, 'EP 16 · VOTIVE TABLET'),
     17: (ex_greekcoin, 'EP 17 · GREEK-STYLE COIN'),
 })
+
+
+# ---------- Unit 4 exhibits ----------
+def ex_arthashastra(ctx, cx, cy, s=1., a=1., t=0.):
+    """a palm-leaf manuscript of the Arthashastra, open rather than bound shut:
+    a manual, so it is shown as a book in use."""
+    carve(ctx, lambda: poly(ctx, [(cx - 128*s, cy + 44*s), (cx - 4*s, cy + 22*s),
+                                  (cx - 4*s, cy - 34*s), (cx - 122*s, cy - 12*s)]),
+          S['sand'], a, depth=3.6*s, seed=160)
+    carve(ctx, lambda: poly(ctx, [(cx + 128*s, cy + 44*s), (cx + 4*s, cy + 22*s),
+                                  (cx + 4*s, cy - 34*s), (cx + 122*s, cy - 12*s)]),
+          S['sand'], a, depth=3.6*s, seed=161)
+    for side in (-1, 1):
+        for k in range(5):
+            rgba(ctx, S['soot'], .4*a)
+            ctx.rectangle(cx + side*22*s - (0 if side > 0 else 84*s), cy - 18*s + k*13*s, 84*s, 4.4*s)
+            ctx.fill()
+    carve(ctx, lambda: rrect(ctx, cx - 140*s, cy + 40*s, 280*s, 18*s, 5*s),
+          tuple(v*.78 for v in S['clay']), a, depth=3*s)
+
+
+def ex_bullcapital(ctx, cx, cy, s=1., a=1., t=0.):
+    """the Rampurva bull capital: a standing bull on a bell-shaped lotus base.
+    This is NOT the Sarnath lion capital, whose use is restricted by law."""
+    carve(ctx, lambda: ctx.rectangle(cx - 34*s, cy + 56*s, 68*s, 36*s), tuple(v*.9 for v in S['sand']), a, depth=4*s)
+    # the inverted lotus bell
+    def bell():
+        ctx.move_to(cx - 72*s, cy + 56*s)
+        ctx.curve_to(cx - 62*s, cy + 10*s, cx - 34*s, cy + 2*s, cx - 28*s, cy - 4*s)
+        ctx.line_to(cx + 28*s, cy - 4*s)
+        ctx.curve_to(cx + 34*s, cy + 2*s, cx + 62*s, cy + 10*s, cx + 72*s, cy + 56*s)
+        ctx.close_path()
+    carve(ctx, bell, S['lime'], a, depth=4.4*s, seed=170)
+    ctx.save(); ctx.new_path(); bell(); ctx.clip()
+    for k in range(9):
+        rgba(ctx, S['soot'], .2*a); ctx.set_line_width(2.6*s)
+        ctx.move_to(cx - 72*s + k*18*s, cy + 56*s); ctx.line_to(cx - 26*s + k*6.6*s, cy - 4*s); ctx.stroke()
+    ctx.restore()
+    carve(ctx, lambda: ctx.rectangle(cx - 60*s, cy - 18*s, 120*s, 16*s), S['sand'], a, depth=3*s, seed=171)
+    # a standing bull in profile, facing left, with its hump
+    carve(ctx, lambda: poly(ctx, [(cx - 72*s, cy - 34*s), (cx - 66*s, cy - 62*s), (cx - 44*s, cy - 70*s),
+                                  (cx - 20*s, cy - 92*s), (cx + 10*s, cy - 72*s), (cx + 52*s, cy - 66*s),
+                                  (cx + 70*s, cy - 34*s), (cx + 52*s, cy - 34*s), (cx + 46*s, cy - 50*s),
+                                  (cx - 46*s, cy - 50*s), (cx - 52*s, cy - 34*s)]),
+          tuple(v*.94 for v in S['lime']), a, depth=3.6*s, tex=.2, seed=172)
+
+
+def ex_rockedict(ctx, cx, cy, s=1., a=1., t=0.):
+    """a boulder face carved with lines of early Brahmi, shown as incised bands"""
+    carve(ctx, lambda: poly(ctx, [(cx - 118*s, cy + 76*s), (cx - 132*s, cy - 18*s), (cx - 64*s, cy - 80*s),
+                                  (cx + 56*s, cy - 86*s), (cx + 130*s, cy - 10*s), (cx + 116*s, cy + 76*s)]),
+          tuple(v*1.12 for v in S['basalt']), a, depth=5.6*s, seed=180)
+    rr = random.Random(19)
+    for k in range(7):
+        w_ = rr.uniform(.6, 1.) * 170*s
+        rgba(ctx, S['lime'], .34*a)
+        ctx.rectangle(cx - w_/2, cy - 52*s + k*17*s, w_, 5.5*s); ctx.fill()
+
+
+def ex_pillarsection(ctx, cx, cy, s=1., a=1., t=0.):
+    """a drum of polished Mauryan sandstone, with a mirror sheen"""
+    carve(ctx, lambda: ctx.rectangle(cx - 56*s, cy - 84*s, 112*s, 168*s), S['sand'], a, depth=5*s, seed=190)
+    g = cairo.LinearGradient(cx - 56*s, 0, cx + 56*s, 0)
+    g.add_color_stop_rgba(0., 1, 1, 1, 0)
+    g.add_color_stop_rgba(.34, 1, .99, .95, .34*a)
+    g.add_color_stop_rgba(.52, 1, 1, 1, .08*a)
+    g.add_color_stop_rgba(1., 0, 0, 0, .18*a)
+    ctx.rectangle(cx - 56*s, cy - 84*s, 112*s, 168*s); ctx.set_source(g); ctx.fill()
+    carve(ctx, lambda: ctx.rectangle(cx - 68*s, cy + 84*s, 136*s, 20*s), tuple(v*.9 for v in S['sand']), a, depth=3.4*s)
+
+
+EXHIBITS.update({
+    18: (ex_arthashastra, 'EP 18 · ARTHASHASTRA'),
+    19: (ex_bullcapital, 'EP 19 · RAMPURVA BULL CAPITAL'),
+    20: (ex_rockedict, 'EP 20 · ROCK EDICT'),
+    21: (ex_pillarsection, 'EP 21 · POLISHED PILLAR'),
+})
