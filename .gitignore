@@ -16,3 +16,10 @@ queue.log
 STOP_QUEUE
 **/*.srt
 !output/*.srt
+**/vo_hi/
+**/scan/
+**/*.m4a
+**/small.mp4
+**/concat.txt
+**/ffmpeg2pass*
+**/*_thumb*.png

@@ -119,8 +119,9 @@ def SOURCES(ctx, t, D, a, on=(), note=None, t0=.4):
     if note:
         q = seg(t, D*.45, D*.45 + .6)
         if q > 0:
-            for j, l in enumerate(wrap(ctx, note, 34, 1500, True)):
-                engraved(ctx, l, W/2, 760 + j*46, 34, a*ease(q), S['lime'])
+            ls = [x for ln in note.split('\n') for x in wrap(ctx, ln, 34, 1180, True)]
+            for j, l in enumerate(ls):
+                engraved(ctx, l, 760, 740 + j*48, 34, a*ease(q), S['lime'])
 
 
 # ================= FRIEZE =================
@@ -253,8 +254,9 @@ def QUIZ(ctx, t, D, a, cards, mains=None, t0=.3, per=None, prompt='PAUSE AND NAM
         qa = a*ease(seg(local, 0, .45))*ease(seg(per + .4 - local, 0, .4))
         rise = (1 - eob(cl(local/.6), 1.5))*120
         ctx.save(); ctx.translate(0, rise)
-        carve(ctx, lambda: rrect(ctx, 560, 230, 800, 480, 14), S['clay'], qa, depth=6.)
-        draw(ctx, 960, 560, qa, t)
+        carve(ctx, lambda: rrect(ctx, 430, 210, 1060, 540, 16), S['clay'], qa, depth=6.5)
+        ctx.save(); ctx.translate(960, 500); ctx.scale(1.35, 1.35); ctx.translate(-960, -500)
+        draw(ctx, 960, 500, qa, t); ctx.restore()
         ctx.restore()
         # the 3-2-1 ring
         cd = per*.52
@@ -262,16 +264,16 @@ def QUIZ(ctx, t, D, a, cards, mains=None, t0=.3, per=None, prompt='PAUSE AND NAM
             left = cd - local
             num = int(left) + 1
             frac = left - int(left)
-            cx_, cy_ = 1530, 420
+            cx_, cy_ = 1640, 350
             ctx.new_path(); rgba(ctx, S['basalt'], .9*qa); ctx.arc(cx_, cy_, 78, 0, 2*math.pi); ctx.fill()
             ctx.new_path(); rgba(ctx, S['ochre'], qa); ctx.set_line_width(9)
             ctx.arc(cx_, cy_, 78, -math.pi/2, -math.pi/2 + 2*math.pi*frac); ctx.stroke()
             engraved(ctx, str(min(num, 3)), cx_, cy_ + 26, 68, qa, S['lime'])
-            engraved(ctx, prompt, 960, 790, 32, qa, S['ochre'], serif=False)
+            engraved(ctx, prompt, 960, 828, 34, qa, S['ochre'], serif=False)
         else:
             aq = ease(cl((local - cd)/.5))
-            carve(ctx, lambda: rrect(ctx, 560, 740, 800, 104, 10), S['basalt'], qa*aq, depth=4.)
-            engraved(ctx, answer, 960, 808, 44, qa*aq, S['lime'])
+            carve(ctx, lambda: rrect(ctx, 430, 782, 1060, 112, 10), S['basalt'], qa*aq, depth=4.)
+            engraved(ctx, answer, 960, 856, 46, qa*aq, S['lime'])
     ctx.restore()
     if mains:
         mt = t0 + len(cards)*per + .3
@@ -295,13 +297,13 @@ def GALLERY(ctx, t, D, a, hall, facts=(), nxt=None, t0=.4):
         q = seg(t, t0 + 1.1, t0 + 1.7)
         if q > 0:
             qa = a*ease(q)
-            carve(ctx, lambda: rrect(ctx, 1180, 250, 640, 330, 12), S['lime'], qa, depth=5.)
-            engraved(ctx, 'MUSEUM LABEL', 1500, 310, 24, qa, S['soot'], serif=False)
-            rgba(ctx, S['soot'], .35*qa); ctx.rectangle(1230, 330, 540, 2); ctx.fill()
+            carve(ctx, lambda: rrect(ctx, 1300, 170, 560, 300, 12), S['lime'], qa, depth=5.)
+            engraved(ctx, 'MUSEUM LABEL', 1580, 226, 24, qa, S['soot'], serif=False)
+            rgba(ctx, S['soot'], .35*qa); ctx.rectangle(1340, 246, 480, 2); ctx.fill()
             for j, f in enumerate(facts):
                 fq = ease(seg(t, t0 + 1.5 + j*.3, t0 + 1.9 + j*.3))
-                for k, l in enumerate(wrap(ctx, f, 27, 540, False)):
-                    engraved(ctx, l, 1230, 388 + j*58 + k*32, 27, qa*fq, S['soot'], 'l', lit_=.0)
+                for k, l in enumerate(wrap(ctx, f, 26, 470, False)):
+                    engraved(ctx, l, 1340, 300 + j*56 + k*31, 26, qa*fq, S['soot'], 'l', lit_=.0)
     if nxt:
         q = seg(t, D - 3.2, D - 2.6)
         if q > 0:
@@ -316,5 +318,5 @@ def SUBSCRIBE(ctx, t, D, a, t0):
     q = seg(t, t0, t0 + .6)
     if q <= 0: return
     qa = a*ease(q)
-    carve(ctx, lambda: rrect(ctx, 1320, 650, 520, 110, 10), S['basalt'], qa, depth=4.)
-    engraved(ctx, 'SUBSCRIBE  ·  GyaanXstudios', 1580, 718, 28, qa, S['lime'], 'c', serif=False)
+    carve(ctx, lambda: rrect(ctx, 700, 920, 520, 104, 10), S['basalt'], qa, depth=4.)
+    engraved(ctx, 'SUBSCRIBE  ·  GyaanXstudios', 960, 984, 28, qa, S['lime'], 'c', serif=False)
