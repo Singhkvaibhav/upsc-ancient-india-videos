@@ -13,6 +13,15 @@ import re
 s=open('ep.py',encoding='utf-8').read()
 print(re.search(r\"^TITLE = '(.*)'\", s, re.M).group(1))")
 
+# --- narration, if this episode's scratch has been cleared
+# Delivery deletes vo/ and vo_hi/ (see the end of this script), so a re-render
+# of an already-delivered episode has to speak its lines again first. The
+# timeline reads vo/durs.json, so without this the render fails on beat 0.
+if [ ! -f vo/durs.json ] || [ ! -f vo_hi/durs.json ]; then
+  python3 ../../engine/cli.py tts    ../../voice/en-us-lessac-medium.onnx  > tts_en.log 2>&1
+  python3 ../../engine/cli.py tts-hi ../../voice/hi_IN-pratham-medium.onnx > tts_hi.log 2>&1
+fi
+
 # --- render, two workers (the box has two cores)
 rm -rf parts; mkdir -p parts
 EVEN=$(python3 -c "print(','.join(str(i) for i in range(0,$N,2)))")
