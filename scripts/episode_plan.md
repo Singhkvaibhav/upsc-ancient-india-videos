@@ -9,12 +9,12 @@ Status: **to script** · **sample script (approve)** · **scripted** = approved 
 ## Unit 1: Prehistory and the Harappans (Ep 1–6)
 | # | Episode | Covers | Exhibit | Status |
 | --- | --- | --- | --- | --- |
-| 1 | How we know about ancient India | Literary sources, archaeology, inscriptions, coins, foreign accounts | A palm-leaf manuscript beside a coin | to script |
-| 2 | Stone Age India | Palaeolithic, Mesolithic, Neolithic: Bhimbetka, Mehrgarh, Burzahom | A stone hand axe | to script |
-| 3 | Chalcolithic cultures | Ahar, Malwa, Jorwe | A black-on-red painted pot | to script |
+| 1 | How we know about ancient India | Literary sources, archaeology, inscriptions, coins, foreign accounts | A palm-leaf manuscript beside a coin | scripted |
+| 2 | Stone Age India | Palaeolithic, Mesolithic, Neolithic: Bhimbetka, Mehrgarh, Burzahom | A stone hand axe | scripted |
+| 3 | Chalcolithic cultures | Ahar, Malwa, Jorwe | A black-on-red painted pot | scripted |
 | 4 | Harappan cities ★ | Town planning, drainage, the Great Bath, granaries | A standard 1:2:4 brick and a covered drain section | done |
-| 5 | Harappan life ★ | Economy, trade, seals, script, religion | A unicorn seal | to script |
-| 6 | Harappan sites and decline ★ | Key sites; theories of decline | A bronze figurine | to script |
+| 5 | Harappan life ★ | Economy, trade, seals, script, religion | A unicorn seal | scripted |
+| 6 | Harappan sites and decline ★ | Key sites; theories of decline | A bronze figurine | scripted |
 
 ## Unit 2: The Vedic age (Ep 7–11)
 | # | Episode | Covers | Exhibit | Status |
