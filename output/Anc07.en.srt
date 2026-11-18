@@ -1,0 +1,232 @@
+1
+00:00:00,900 --> 00:00:02,583
+Here is a strange thing.
+
+2
+00:00:02,583 --> 00:00:11,094
+For the next four episodes, the ground gives us very little: a few post-holes, some plain pottery, no cities, no palaces.
+
+3
+00:00:12,767 --> 00:00:18,585
+And yet we know more about what these people thought than about almost anyone else in the ancient world.
+
+4
+00:00:18,585 --> 00:00:25,147
+Because they left something else entirely — a book, carried in memory for centuries before anyone wrote it down.
+
+5
+00:00:27,833 --> 00:00:29,079
+So the sources flip.
+
+6
+00:00:29,079 --> 00:00:33,882
+For the first time, texts do most of the work, and archaeology only checks them.
+
+7
+00:00:33,882 --> 00:00:37,796
+That is a real limitation, and it shapes everything that follows:
+
+8
+00:00:37,796 --> 00:00:44,620
+we hear these people describe themselves, and we have very little independent evidence to test what they say.
+
+9
+00:00:48,400 --> 00:00:55,095
+The Rigveda is the oldest surviving text composed in India, a collection of more than a thousand hymns in ten books.
+
+10
+00:00:57,067 --> 00:01:01,259
+It was composed in an archaic form of Sanskrit, and then carried orally,
+
+11
+00:01:01,259 --> 00:01:08,036
+by families of reciters trained to repeat it exactly, syllable by syllable, for many centuries before it was written.
+
+12
+00:01:08,036 --> 00:01:12,413
+That is why its language is older than the manuscripts it survives in.
+
+13
+00:01:14,733 --> 00:01:17,352
+The world of the Rigveda is a river world.
+
+14
+00:01:17,352 --> 00:01:24,294
+It calls itself the land of seven rivers, Sapta Sindhu, and the rivers it names most often lie in the north-west.
+
+15
+00:01:24,294 --> 00:01:26,787
+The Sindhu is mentioned constantly.
+
+16
+00:01:29,633 --> 00:01:32,684
+The Saraswati is praised as the greatest of rivers.
+
+17
+00:01:32,684 --> 00:01:34,386
+The Ganga appears only once.
+
+18
+00:01:34,386 --> 00:01:40,670
+That pattern tells you roughly where these people were, and in which direction they had not yet gone.
+
+19
+00:01:43,300 --> 00:01:44,774
+Their economy was pastoral.
+
+20
+00:01:44,774 --> 00:01:51,709
+Cattle were the measure of wealth, so completely that the word for a battle in the Rigveda literally means a search for cows.
+
+21
+00:01:55,367 --> 00:02:00,002
+They farmed too, mainly barley, but land was not the thing people counted.
+
+22
+00:02:00,002 --> 00:02:01,105
+Cattle were.
+
+23
+00:02:03,333 --> 00:02:05,764
+And the politics were tribal, not royal.
+
+24
+00:02:05,764 --> 00:02:07,898
+People belonged to a jana, a tribe.
+
+25
+00:02:07,898 --> 00:02:10,565
+Its leader was a raja — but this is a chief,
+
+26
+00:02:10,565 --> 00:02:16,793
+chosen for leadership in war and for protecting cattle, not a king with a territory and a treasury.
+
+27
+00:02:22,233 --> 00:02:29,124
+He was advised, and checked, by assemblies: the sabha, a smaller body, and the samiti, a larger one.
+
+28
+00:02:29,124 --> 00:02:33,354
+He took bali, offerings, but these were voluntary, not taxes.
+
+29
+00:02:33,354 --> 00:02:39,358
+The gods they invoked — Indra, Agni, Varuna — were worshipped at the fire, in the open.
+
+30
+00:02:39,358 --> 00:02:42,183
+There were no temples and no images.
+
+31
+00:02:47,000 --> 00:02:51,305
+Now the question everyone asks, and the one where opinion runs hottest.
+
+32
+00:02:51,305 --> 00:02:53,577
+Where did the Vedic people come from?
+
+33
+00:02:53,577 --> 00:02:55,071
+One body of scholarship,
+
+34
+00:02:55,071 --> 00:03:00,632
+resting mainly on language — on how Sanskrit relates to other Indo-European languages — argu
+
+35
+00:03:00,632 --> 00:03:06,552
+es that Indo-Aryan speakers moved into the subcontinent from Central Asia over a long period.
+
+36
+00:03:08,467 --> 00:03:11,819
+Another argues for development within the subcontinent,
+
+37
+00:03:11,819 --> 00:03:17,447
+pointing to continuity in the material record and to the absence of any evidence of invasion.
+
+38
+00:03:17,447 --> 00:03:19,422
+Two things are worth separating.
+
+39
+00:03:19,422 --> 00:03:25,050
+Almost all scholars now reject the old idea of a violent invasion destroying Harappan cities.
+
+40
+00:03:25,050 --> 00:03:29,480
+The narrower question of migration is genuinely open and actively argued.
+
+41
+00:03:29,480 --> 00:03:32,953
+This series states both positions and takes neither.
+
+42
+00:03:38,933 --> 00:03:42,416
+Here is the memory tip, carved in stone.
+
+43
+00:03:42,416 --> 00:03:44,710
+Early Vedic in four words.
+
+44
+00:03:44,710 --> 00:03:46,154
+Cows, not crops.
+
+45
+00:03:46,154 --> 00:03:47,899
+Chief, not king.
+
+46
+00:03:52,567 --> 00:03:53,284
+Dig Quiz.
+
+47
+00:03:53,284 --> 00:03:54,647
+Pause and name it.
+
+48
+00:03:54,647 --> 00:04:02,119
+First: a collection of more than a thousand hymns, in ten books, the oldest text composed in India.
+
+49
+00:04:04,533 --> 00:04:05,395
+The Rigveda.
+
+50
+00:04:05,395 --> 00:04:09,571
+Second: the two assemblies that advised and checked the chief.
+
+51
+00:04:09,571 --> 00:04:11,594
+The sabha and the samiti.
+
+52
+00:04:13,667 --> 00:04:18,314
+Third: the land of seven rivers, where most of the Rigveda is set.
+
+53
+00:04:18,314 --> 00:04:19,284
+Sapta Sindhu.
+
+54
+00:04:19,284 --> 00:04:24,509
+In Mains, a standard question asks you to describe Early Vedic polity.
+
+55
+00:04:27,100 --> 00:04:34,322
+The marks are in the word chief: no territory, no standing army, no regular tax, and assemblies that mattered.
+
+56
+00:04:36,900 --> 00:04:44,297
+A page of the Rigveda takes its place in the gallery: the oldest thing in this museum that is not an object at all, but a memory.
+
+57
+00:04:47,033 --> 00:04:51,995
+Next gallery: iron, the move east, and the moment a chief becomes a king.
+
+58
+00:04:51,995 --> 00:04:56,118
+To catch it when it's out, subscribe to Gyaan-X Studios.
+
